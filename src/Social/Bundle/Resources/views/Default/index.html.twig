@@ -1,0 +1,57 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3">
+        <!-- -->
+      </div>
+      <div class="col-md-6">
+
+        {{ form_start(formPost) }}
+        {{ form_widget(formPost) }}
+        <input type="submit" value="Create" />
+        {{ form_end(formPost) }}
+
+        {% for statut in posts %}
+        <br><br><br>
+        <article>
+        <a href="{{ path('fos_user_profile_show', {'id': statut.user })}}"> {{ statut.user }} </a>
+        <br>
+        {{ statut.statut }}
+        <br>
+        <a href="#">J'aime</a> <a href="{{ path('post_show', { 'id': statut.id }) }}">Commenter</a>
+
+      </article>
+      {% endfor %}
+
+    </div>
+    <div class="col-md-3">
+      <!-- -->
+    </div>
+  </div>
+</div>
+</section>
+
+{% else %}
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+
+      </div>
+
+      <div class="col-md-6">
+        {% include "FOSUserBundle:Registration:register_content.html.twig" %}
+      </div>
+
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% endblock body %}
