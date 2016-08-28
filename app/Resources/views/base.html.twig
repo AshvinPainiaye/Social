@@ -28,7 +28,7 @@
         <ul class="nav navbar-nav navbar-right">
           {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
           <li><a href="{{path('homepage')}}">Accueil</a></li>
-          <li><a href="{{path('fos_user_profile_show', {'id': app.user })}}">Profile</a></li>
+          <li><a href="{{path('fos_user_profile_show', {'id': app.user })}}"> {{app.user}} </a></li>
           <li><a href="{{path('fos_user_security_logout')}}">Deconnexion</a></li>
           {% else %}
           <li>{{ render(controller('FOSUserBundle:Security:login')) }}</li>
@@ -40,6 +40,7 @@
 
 
   {% block body %}{% endblock %}
+  {% block fos_user_content %}{% endblock %}
   {% block javascripts %}
   <script type="text/javascript" src="//code.jquery.com/jquery.min.js"></script>
   <script type="text/javascript" src=" {{asset('bootstrap/js/bootstrap.min.js') }}"></script>
