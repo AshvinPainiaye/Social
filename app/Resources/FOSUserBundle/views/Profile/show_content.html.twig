@@ -1,28 +1,44 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
 <div class="fos_user_user_show">
-    <p>{{ 'profile.show.username'|trans }}: {#{ user.username }#}</p>
-    <p>{{ 'profile.show.email'|trans }}: {#{ user.email }#}</p>
+  <!-- <p>{{ 'profile.show.username'|trans }}: {#{ user.username }#}</p>
+  <p>{{ 'profile.show.email'|trans }}: {#{ user.email }#}</p> -->
 
-    {% for user in user %}
+  {% for user in user %}
 
-    {% if app.request.get('id') == user.username %}
+  {% if app.request.get('id') == user.username %}
 
-    {{ user.username }}
-    {{ user.email }}
+  {{ user.username }}
+  {{ user.email }}
 
+  {% endif %}
 
-    {% endif %}
+  {% endfor %}
 
+  {% for statut in posts %}
 
-    {% endfor %}
+  {% if app.request.get('id') == statut.user.username %}
+
+  <br><br><br>
+  <article>
+    <a href="{{ path('fos_user_profile_show', {'id': statut.user })}}"> {{ statut.user }} </a>
+    <br>
+    {{ statut.statut }}
+    <br>
+    <a href="#">J'aime</a> <a href="{{ path('post_show', { 'id': statut.id }) }}">Commenter</a>
+
+  </article>
+
+{% endif %}
+
+{% endfor %}
 
 <br><br><br>
 
-    {% if app.user == app.request.get('id') %}
+{% if app.user == app.request.get('id') %}
 
-    <a href="{{path('fos_user_change_password', {'id': app.user })}}">Modifier mot de passe</a> | <a href="{{path('fos_user_profile_edit', {'id': app.user })}}">Modifier compte</a>
+<a href="{{path('fos_user_change_password', {'id': app.user })}}">Modifier mot de passe</a> | <a href="{{path('fos_user_profile_edit', {'id': app.user })}}">Modifier compte</a>
 
-    {% endif %}
+{% endif %}
 
 </div>

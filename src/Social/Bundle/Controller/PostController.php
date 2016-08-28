@@ -79,11 +79,7 @@ class PostController extends Controller
     $commentaire = new Commentaire();
     $formComment = $this->createForm('Social\Bundle\Form\CommentaireType', $commentaire);
     $formComment->handleRequest($request);
-
-    $em = $this->getDoctrine()->getManager();
-    $commentaires = $em->getRepository('SocialBundle:Commentaire')->findAll();
-
-
+    
     $userId = $this->getUser();
     $userId->getId();
     $commentaire->setUser($userId);
@@ -91,8 +87,11 @@ class PostController extends Controller
     $post->getId();
     $commentaire->setPost($post);
 
+    $em = $this->getDoctrine()->getManager();
+
+    $commentaires = $em->getRepository('SocialBundle:Commentaire')->findBy(array('post' =>$post->getId()));
+
     if ($formComment->isSubmitted() && $formComment->isValid()) {
-      $em = $this->getDoctrine()->getManager();
       $em->persist($commentaire);
       $em->flush();
 

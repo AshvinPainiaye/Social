@@ -33,7 +33,7 @@ class ProfileController extends Controller
      */
     public function showAction()
     {
-        // $user = $this->getUser();
+        $userId = $this->getUser();
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('SocialBundle:User')->findAll();
 
@@ -41,8 +41,13 @@ class ProfileController extends Controller
         //     throw new AccessDeniedException('This user does not have access to this section.');
         // }
 
+        $posts = $em->getRepository('SocialBundle:Post')->findAll();
+        // $posts = $em->getRepository('SocialBundle:Post')->findBy(['user'=>$userId]);
+
+
         return $this->render('FOSUserBundle:Profile:show.html.twig', array(
-            'user' => $user
+            'user' => $user,
+            'posts' => $posts
         ));
     }
 
