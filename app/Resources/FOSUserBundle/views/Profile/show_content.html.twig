@@ -25,6 +25,12 @@
     <br>
     {{ statut.statut }}
     <br>
+    {% if statut.imageName is empty %}
+    {% else %}
+    <img src="{{ asset('images/UserPost/')~ statut.imageName }}" alt="" class="img-responsive" />
+    {% endif %}
+    
+    <br>
     <a href="#">J'aime</a> <a href="{{ path('post_show', { 'id': statut.id }) }}">Commenter</a>
 
   </article>

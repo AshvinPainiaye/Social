@@ -6,6 +6,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+use Vich\UploaderBundle\Form\Type\VichImageType;
+
 class PostType extends AbstractType
 {
     /**
@@ -16,9 +18,10 @@ class PostType extends AbstractType
     {
         $builder
             ->add('statut')
+            ->add('imageFile', VichImageType::class, array('label' => ' ', 'required' => false))
         ;
     }
-    
+
     /**
      * @param OptionsResolver $resolver
      */

@@ -66,6 +66,19 @@ swiftmailer:
     spool:     { type: memory }
 
 fos_user:
-    db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
+    db_driver: orm
     firewall_name: main
     user_class: Social\Bundle\Entity\User
+    registration:
+        form:
+            type: Social\Bundle\Form\RegistrationFormType
+
+vich_uploader:
+    db_driver: orm
+    mappings:
+        user_post:
+            uri_prefix:         /images/UserPost
+            upload_destination: '%kernel.root_dir%/../web/images/UserPost'
+        user_profile:
+            uri_prefix:         /images/UserProfile
+            upload_destination: '%kernel.root_dir%/../web/images/UserProfile'

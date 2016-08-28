@@ -95,4 +95,27 @@ class Commentaire
     {
         return $this->user;
     }
+
+    /**
+     * Set post
+     *
+     * @param \Social\Bundle\Entity\Post $post
+     * @return Commentaire
+     */
+    public function setPost(\Social\Bundle\Entity\Post $post = null)
+    {
+        $this->post = $post;
+
+        return $this;
+    }
+
+    /**
+     * Get post
+     *
+     * @return \Social\Bundle\Entity\Post 
+     */
+    public function getPost()
+    {
+        return $this->post;
+    }
 }

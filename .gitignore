@@ -10,3 +10,7 @@
 /vendor/
 /bin/
 /composer.phar
+/web/images/UserPost/*
+!web/images/UserPost/.gitkeep
+/web/images/UserProfile/*
+!web/images/UserProfile/.gitkeep

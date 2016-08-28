@@ -20,21 +20,34 @@
         {% for statut in posts %}
         <br><br><br>
         <article>
-        <a href="{{ path('fos_user_profile_show', {'id': statut.user })}}"> {{ statut.user }} </a>
-        <br>
-        {{ statut.statut }}
-        <br>
-        <a href="#">J'aime</a> <a href="{{ path('post_show', { 'id': statut.id }) }}">Commenter</a>
+          <a href="{{ path('fos_user_profile_show', {'id': statut.user })}}">
 
-      </article>
-      {% endfor %}
+            {% if statut.user.imageName is empty %}
+            {% else %}
+            <img src="{{ asset('images/UserProfile/')~ statut.user.imageName }}" alt="" class="avatarUser" />
+            {% endif %}
 
-    </div>
-    <div class="col-md-3">
-      <!-- -->
+             {{ statut.user }} </a>
+          <br>
+          {{ statut.statut }}
+          <br>
+          {% if statut.imageName is empty %}
+          {% else %}
+          <img src="{{ asset('images/UserPost/')~ statut.imageName }}" alt="" class="img-responsive" />
+          {% endif %}
+
+          <br>
+          <a href="#">J'aime</a> <a href="{{ path('post_show', { 'id': statut.id }) }}">Commenter</a>
+
+        </article>
+        {% endfor %}
+
+      </div>
+      <div class="col-md-3">
+        <!-- -->
+      </div>
     </div>
   </div>
-</div>
 </section>
 
 {% else %}
