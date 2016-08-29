@@ -28,30 +28,34 @@
         <ul class="nav navbar-nav navbar-right">
           {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
           <li><a href="{{path('homepage')}}">Accueil</a></li>
-          <li><a href="{{path('fos_user_profile_show', {'id': app.user })}}">
+          <li><a href="{{path('fos_user_profile_show', {'id': app.user.id, 'user': app.user})}}">
 
             {% if app.user.imageName is empty %}
+            <img src="{{ asset('images/user_icon_default_social.jpg/') }}" alt="" class="avatarUser" />
             {% else %}
-            <img  src="{{ asset('images/UserProfile/')~ app.user.imageName }}" alt="" class="avatarUser" />
+            <img src="{{ asset('images/UserProfile/')~ app.user.imageName }}" alt="" class="avatarUser" />
             {% endif %}
 
-              {{app.user}} </a></li>
-          <li><a href="{{path('fos_user_security_logout')}}">Deconnexion</a></li>
-          {% else %}
-          <li>{{ render(controller('FOSUserBundle:Security:login')) }}</li>
-          {% endif %}
-        </ul>
+            {{app.user}} </a></li>
+
+            <li><a href="#">Notification</a></li>
+
+            <li><a href="{{path('fos_user_security_logout')}}">Deconnexion</a></li>
+            {% else %}
+            <li>{{ render(controller('FOSUserBundle:Security:login')) }}</li>
+            {% endif %}
+          </ul>
+        </div>
       </div>
-    </div>
-  </nav>
+    </nav>
 
 
-  {% block body %}{% endblock %}
-  {% block fos_user_content %}{% endblock %}
-  {% block javascripts %}
-  <script type="text/javascript" src="//code.jquery.com/jquery.min.js"></script>
-  <script type="text/javascript" src=" {{asset('bootstrap/js/bootstrap.min.js') }}"></script>
-  <script src="{{asset('js/main.js')}}"></script>
-  {% endblock %}
-</body>
-</html>
+    {% block body %}{% endblock %}
+    {% block fos_user_content %}{% endblock %}
+    {% block javascripts %}
+    <script type="text/javascript" src="//code.jquery.com/jquery.min.js"></script>
+    <script type="text/javascript" src=" {{asset('bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{asset('js/main.js')}}"></script>
+    {% endblock %}
+  </body>
+  </html>

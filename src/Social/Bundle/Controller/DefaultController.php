@@ -25,6 +25,8 @@ class DefaultController extends Controller
     $em = $this->getDoctrine()->getManager();
     $posts = $em->getRepository('SocialBundle:Post')->findAll();
 
+    $actualites = $em->getRepository('SocialBundle:AddFriend')->findAll();
+
     $post = new Post();
     $formPost = $this->createForm('Social\Bundle\Form\PostType', $post);
     $formPost->handleRequest($request);
@@ -34,6 +36,7 @@ class DefaultController extends Controller
       $userId = $this->getUser();
       $userId->getId();
       $post->setUser($userId);
+      $posts = $em->getRepository('SocialBundle:Post')->findBy(['user'=>$userId]);
     }
 
     if ($formPost->isSubmitted() && $formPost->isValid()) {
@@ -49,25 +52,9 @@ class DefaultController extends Controller
       'post' => $post,
       'formPost' => $formPost->createView(),
       'form' => $form->createView(),
+      'actualites' => $actualites,
     ));
 
   }
-
-
-
-  // /**
-  // * @Route("/profil/{id}", name="show_User_Profile")
-  // */
-  // public function showUserAction()
-  // {
-  //
-  //   $em = $this->getDoctrine()->getManager();
-  //   $user = $em->getRepository('SocialBundle:User')->findAll();
-  //
-  //
-  //     return $this->render('profile/profile.html.twig', array(
-  //         'user' => $user,
-  //     ));
-  // }
 
 }

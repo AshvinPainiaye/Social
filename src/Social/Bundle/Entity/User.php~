@@ -59,6 +59,18 @@ class User extends BaseUser
     private $updatedAt;
 
 
+    /**
+    * @ORM\OneToMany(targetEntity="AddFriend", mappedBy="envoieFriend")
+    */
+    private $friendEnvoie;
+
+    /**
+    * @ORM\OneToMany(targetEntity="AddFriend", mappedBy="receptionFriend")
+    */
+    private $friendReception;
+
+
+
     public function __construct()
     {
         parent::__construct();
@@ -182,4 +194,30 @@ public function getImageName()
 {
     return $this->imageName;
 }
+
+    /**
+     * Set updatedAt
+     *
+     * @param \DateTime $updatedAt
+     * @return User
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+
+
 }

@@ -59,6 +59,18 @@ class User extends BaseUser
     private $updatedAt;
 
 
+    /**
+    * @ORM\OneToMany(targetEntity="AddFriend", mappedBy="envoieFriend")
+    */
+    private $friendEnvoie;
+
+    /**
+    * @ORM\OneToMany(targetEntity="AddFriend", mappedBy="receptionFriend")
+    */
+    private $friendReception;
+
+
+
     public function __construct()
     {
         parent::__construct();
@@ -199,10 +211,79 @@ public function getImageName()
     /**
      * Get updatedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
         return $this->updatedAt;
+    }
+
+
+
+
+    /**
+     * Add friendEnvoie
+     *
+     * @param \Social\Bundle\Entity\AddFriend $friendEnvoie
+     * @return User
+     */
+    public function addFriendEnvoie(\Social\Bundle\Entity\AddFriend $friendEnvoie)
+    {
+        $this->friendEnvoie[] = $friendEnvoie;
+
+        return $this;
+    }
+
+    /**
+     * Remove friendEnvoie
+     *
+     * @param \Social\Bundle\Entity\AddFriend $friendEnvoie
+     */
+    public function removeFriendEnvoie(\Social\Bundle\Entity\AddFriend $friendEnvoie)
+    {
+        $this->friendEnvoie->removeElement($friendEnvoie);
+    }
+
+    /**
+     * Get friendEnvoie
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getFriendEnvoie()
+    {
+        return $this->friendEnvoie;
+    }
+
+    /**
+     * Add friendReception
+     *
+     * @param \Social\Bundle\Entity\AddFriend $friendReception
+     * @return User
+     */
+    public function addFriendReception(\Social\Bundle\Entity\AddFriend $friendReception)
+    {
+        $this->friendReception[] = $friendReception;
+
+        return $this;
+    }
+
+    /**
+     * Remove friendReception
+     *
+     * @param \Social\Bundle\Entity\AddFriend $friendReception
+     */
+    public function removeFriendReception(\Social\Bundle\Entity\AddFriend $friendReception)
+    {
+        $this->friendReception->removeElement($friendReception);
+    }
+
+    /**
+     * Get friendReception
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getFriendReception()
+    {
+        return $this->friendReception;
     }
 }
