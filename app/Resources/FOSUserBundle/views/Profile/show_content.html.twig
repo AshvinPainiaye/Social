@@ -22,12 +22,12 @@
 <a href="#">ne plus suivre</a>
 
 {% else %}
-
+{% if  app.request.get('id') != app.user.id %}
   {{ form_start(formAddFriend) }}
   {{ form_widget(formAddFriend) }}
   <input type="submit" value="suivre" />
   {{ form_end(formAddFriend) }}
-
+{% endif %}
 {% endfor %}
 
 
