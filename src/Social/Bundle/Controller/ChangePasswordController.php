@@ -35,6 +35,8 @@ class ChangePasswordController extends Controller
     public function changePasswordAction(Request $request)
     {
         $user = $this->getUser();
+        $userId = $user->getId();
+        
         if (!is_object($user) || !$user instanceof UserInterface) {
             throw new AccessDeniedException('This user does not have access to this section.');
         }
@@ -67,7 +69,7 @@ class ChangePasswordController extends Controller
             $userManager->updateUser($user);
 
             if (null === $response = $event->getResponse()) {
-                $url = $this->generateUrl('fos_user_profile_show', array('id'=> $user));
+                $url = $this->generateUrl('fos_user_profile_show', array('id'=> $userId, 'user' => $user));
                 $response = new RedirectResponse($url);
             }
 
