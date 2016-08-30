@@ -1,28 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>AddFriend</h1>
-
-    <table>
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ addFriend.id }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <ul>
-        <li>
-            <a href="{{ path('addfriend_index') }}">Back to the list</a>
-        </li>
-        <li>
-            <a href="{{ path('addfriend_edit', { 'id': addFriend.id }) }}">Edit</a>
-        </li>
-        <li>
+Etes vous sur de ne plus vouloir le suivre ?
             {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
+                <input type="submit" value="Oui">
             {{ form_end(delete_form) }}
-        </li>
-    </ul>
+<input type="button" name="name" value="Non">
 {% endblock %}

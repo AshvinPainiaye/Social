@@ -16,56 +16,56 @@ use Social\Bundle\Form\AddFriendType;
  */
 class AddFriendController extends Controller
 {
-    /**
-     * Lists all AddFriend entities.
-     *
-     * @Route("/", name="addfriend_index")
-     * @Method("GET")
-     */
-    public function indexAction()
-    {
-        $em = $this->getDoctrine()->getManager();
+    // /**
+    //  * Lists all AddFriend entities.
+    //  *
+    //  * @Route("/", name="addfriend_index")
+    //  * @Method("GET")
+    //  */
+    // public function indexAction()
+    // {
+    //     $em = $this->getDoctrine()->getManager();
+    //
+    //     $addFriends = $em->getRepository('SocialBundle:AddFriend')->findAll();
+    //
+    //     return $this->render('addfriend/index.html.twig', array(
+    //         'addFriends' => $addFriends,
+    //     ));
+    // }
 
-        $addFriends = $em->getRepository('SocialBundle:AddFriend')->findAll();
-
-        return $this->render('addfriend/index.html.twig', array(
-            'addFriends' => $addFriends,
-        ));
-    }
-
-    /**
-     * Creates a new AddFriend entity.
-     *
-     * @Route("/new", name="addfriend_new")
-     * @Method({"GET", "POST"})
-     */
-    public function newAction(Request $request)
-    {
-        $addFriend = new AddFriend();
-        $form = $this->createForm('Social\Bundle\Form\AddFriendType', $addFriend);
-        $form->handleRequest($request);
-
-        $userId = $this->getUser();
-        $userId->getId();
-        $addFriend->setUser1($userId);
-
-        $userId2 = $this->getUser();
-        $userId2->getId();
-        $addFriend->setUser2($userId2);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($addFriend);
-            $em->flush();
-
-            return $this->redirectToRoute('addfriend_show', array('id' => $addFriend->getId()));
-        }
-
-        return $this->render('addfriend/new.html.twig', array(
-            'addFriend' => $addFriend,
-            'form' => $form->createView(),
-        ));
-    }
+    // /**
+    //  * Creates a new AddFriend entity.
+    //  *
+    //  * @Route("/new", name="addfriend_new")
+    //  * @Method({"GET", "POST"})
+    //  */
+    // public function newAction(Request $request)
+    // {
+    //     $addFriend = new AddFriend();
+    //     $form = $this->createForm('Social\Bundle\Form\AddFriendType', $addFriend);
+    //     $form->handleRequest($request);
+    //
+    //     $userId = $this->getUser();
+    //     $userId->getId();
+    //     $addFriend->setUser1($userId);
+    //
+    //     $userId2 = $this->getUser();
+    //     $userId2->getId();
+    //     $addFriend->setUser2($userId2);
+    //
+    //     if ($form->isSubmitted() && $form->isValid()) {
+    //         $em = $this->getDoctrine()->getManager();
+    //         $em->persist($addFriend);
+    //         $em->flush();
+    //
+    //         return $this->redirectToRoute('addfriend_show', array('id' => $addFriend->getId()));
+    //     }
+    //
+    //     return $this->render('addfriend/new.html.twig', array(
+    //         'addFriend' => $addFriend,
+    //         'form' => $form->createView(),
+    //     ));
+    // }
 
     /**
      * Finds and displays a AddFriend entity.
@@ -83,32 +83,32 @@ class AddFriendController extends Controller
         ));
     }
 
-    /**
-     * Displays a form to edit an existing AddFriend entity.
-     *
-     * @Route("/{id}/edit", name="addfriend_edit")
-     * @Method({"GET", "POST"})
-     */
-    public function editAction(Request $request, AddFriend $addFriend)
-    {
-        $deleteForm = $this->createDeleteForm($addFriend);
-        $editForm = $this->createForm('Social\Bundle\Form\AddFriendType', $addFriend);
-        $editForm->handleRequest($request);
-
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($addFriend);
-            $em->flush();
-
-            return $this->redirectToRoute('addfriend_edit', array('id' => $addFriend->getId()));
-        }
-
-        return $this->render('addfriend/edit.html.twig', array(
-            'addFriend' => $addFriend,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }
+    // /**
+    //  * Displays a form to edit an existing AddFriend entity.
+    //  *
+    //  * @Route("/{id}/edit", name="addfriend_edit")
+    //  * @Method({"GET", "POST"})
+    //  */
+    // public function editAction(Request $request, AddFriend $addFriend)
+    // {
+    //     $deleteForm = $this->createDeleteForm($addFriend);
+    //     $editForm = $this->createForm('Social\Bundle\Form\AddFriendType', $addFriend);
+    //     $editForm->handleRequest($request);
+    //
+    //     if ($editForm->isSubmitted() && $editForm->isValid()) {
+    //         $em = $this->getDoctrine()->getManager();
+    //         $em->persist($addFriend);
+    //         $em->flush();
+    //
+    //         return $this->redirectToRoute('addfriend_edit', array('id' => $addFriend->getId()));
+    //     }
+    //
+    //     return $this->render('addfriend/edit.html.twig', array(
+    //         'addFriend' => $addFriend,
+    //         'edit_form' => $editForm->createView(),
+    //         'delete_form' => $deleteForm->createView(),
+    //     ));
+    // }
 
     /**
      * Deletes a AddFriend entity.
@@ -127,7 +127,7 @@ class AddFriendController extends Controller
             $em->flush();
         }
 
-        return $this->redirectToRoute('addfriend_index');
+        return $this->redirectToRoute('homepage');
     }
 
     /**

@@ -39,7 +39,6 @@ class ProfileController extends Controller
     $formAddFriend = $this->createForm('Social\Bundle\Form\AddFriendType', $addFriend);
     $formAddFriend->handleRequest($request);
 
-    // $friend = $em->getRepository('SocialBundle:AddFriend')->findAll();
 
     $userEnvoie = $this->getUser();
     $userEnvoie->getId();
@@ -47,6 +46,7 @@ class ProfileController extends Controller
     $id = $em->getRepository('SocialBundle:User')->findOneById($id);
 
     $friend = $em->getRepository('SocialBundle:AddFriend')->findBy(['receptionFriend'=>$id]);
+
 
     if ($formAddFriend->isSubmitted() && $formAddFriend->isValid()) {
       $addFriend->setEnvoieFriend($userEnvoie)->setReceptionFriend($id);
@@ -118,4 +118,6 @@ class ProfileController extends Controller
       'form' => $form->createView()
     ));
   }
+
+
 }
