@@ -41,13 +41,12 @@ class ProfileController extends Controller
 
     // $friend = $em->getRepository('SocialBundle:AddFriend')->findAll();
 
-
     $userEnvoie = $this->getUser();
     $userEnvoie->getId();
 
     $id = $em->getRepository('SocialBundle:User')->findOneById($id);
 
-    $friend = $em->getRepository('SocialBundle:AddFriend')->findBy(['envoieFriend'=>$userEnvoie, 'receptionFriend'=>$id]);
+    $friend = $em->getRepository('SocialBundle:AddFriend')->findBy(['receptionFriend'=>$id]);
 
     if ($formAddFriend->isSubmitted() && $formAddFriend->isValid()) {
       $addFriend->setEnvoieFriend($userEnvoie)->setReceptionFriend($id);
@@ -55,11 +54,8 @@ class ProfileController extends Controller
       $em->persist($addFriend);
       $em->flush();
 
- // $addFriend = $em->getRepository('SocialBundle:AddFriend')->findBy(['envoieFriend'=>$userEnvoie, 'receptionFriend'=>$id]);
-
       return $this->redirectToRoute('homepage');
     }
-
 
     return $this->render('FOSUserBundle:Profile:show.html.twig', array(
       'user' => $user,

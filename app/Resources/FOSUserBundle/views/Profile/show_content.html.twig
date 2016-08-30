@@ -16,34 +16,19 @@
   {% endfor %}
   <br><br><br>
 
+
+{% for friends in friend if friends.envoieFriend.id == app.user.id %}
+
+<a href="#">ne plus suivre</a>
+
+{% else %}
+
   {{ form_start(formAddFriend) }}
   {{ form_widget(formAddFriend) }}
   <input type="submit" value="suivre" />
   {{ form_end(formAddFriend) }}
 
-
-{% for friends in friend %}
-{# {{dump(friends)}} #}
-{# {% if (friends.envoieFriend.id == app.user.id) and (friends.receptionFriend.id == app.request.get('id')) %} #}
-
- <a href="#" class="btn btn-default">Ne plus suivre</a>
-
-
-{# {% else %}
-
-{{ form_start(formAddFriend) }}
-{{ form_widget(formAddFriend) }}
-<input type="submit" value="suivre" />
-{{ form_end(formAddFriend) }}
-
-{% endif %} #}
-
 {% endfor %}
-
-
-
-
-
 
 
 
@@ -77,9 +62,9 @@
 
 <br><br><br>
 
-{% if app.user == app.request.get('id') %}
+{% if app.user.id == app.request.get('id') %}
 
-<a href="{{path('fos_user_change_password', {'id': app.user })}}">Modifier mot de passe</a> | <a href="{{path('fos_user_profile_edit', {'id': app.user })}}">Modifier compte</a>
+<a href="{{path('fos_user_change_password', {'id': app.user.id, 'user': app.user })}}">Modifier mot de passe</a> | <a href="{{path('fos_user_profile_edit', {'id': app.user.id, 'user': app.user })}}">Modifier compte</a>
 
 {% endif %}
 
