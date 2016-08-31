@@ -42,13 +42,15 @@
             {% endif %}
             <br>
 
+            {% for like in fil.like %}
+            {% if app.user.id == like.id  %}
+            <a href="{{path('post_like_new', {'id':fil.id}  )}}">J'aime plus </a> {{ fil.like|length }}
+            {% endif %}
+            {% endfor %}
+
             {% for like in fil.like if app.user.id == like.id %}
-            
-            <a href="{{path('post_like_new', {'id':fil.id}  )}}">J'aime plus</a>
-
             {% else %}
-            <a href="{{path('post_like_new', {'id':fil.id}  )}}">J'aime</a>
-
+            <a href="{{path('post_like_new', {'id':fil.id}  )}}">J'aime</a>  {{ fil.like|length }}
             {% endfor %}
 
             <a href="{{ path('post_show', { 'id': fil.id }) }}">Commenter</a>
@@ -58,7 +60,6 @@
           {% endfor %}
           {% endif %}
           {% endfor %}
-
 
 
           {% for statut in posts %}
@@ -82,56 +83,48 @@
 
               <br>
 
+              {% for like in statut.like %}
+              {% if app.user.id == like.id  %}
+              <a href="{{path('post_like_new', {'id':statut.id}  )}}">J'aime plus </a> {{ statut.like|length }}
+              {% endif %}
+              {% endfor %}
+
               {% for like in statut.like if app.user.id == like.id %}
-
-              <a href="{{path('post_like_new', {'id':statut.id}  )}}">J'aime plus</a>
-
               {% else %}
-              <a href="{{path('post_like_new', {'id':statut.id}  )}}">J'aime</a>
+              <a href="{{path('post_like_new', {'id':statut.id}  )}}">J'aime</a>  {{ statut.like|length }}
+              {% endfor %}
 
+
+              <a href="{{ path('post_show', { 'id': statut.id }) }}">Commenter</a>
+
+            </article>
             {% endfor %}
 
-            <!-- {% if app.user.id  and statut.like is empty %}
-
-            <a href="{{path('post_like_new', {'id':statut.id}  )}}">J'aime</a>
-            {% else %}
-
-            <a href="{{path('post_like_new', {'id':statut.id}  )}}">J'aime plus</a>
-            {% endif %} -->
-
-            <a href="{{ path('post_show', { 'id': statut.id }) }}">Commenter</a>
-
-          </article>
-          {% endfor %}
 
 
-
-
-
-
-        </div>
-        <div class="col-md-3">
-          <!-- -->
+          </div>
+          <div class="col-md-3">
+            <!-- -->
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  {% else %}
-  <section>
-    <div class="container">
-      <div class="row">
-        <div class="col-md-6">
+    {% else %}
+    <section>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+
+          </div>
+
+          <div class="col-md-6">
+            {% include "FOSUserBundle:Registration:register_content.html.twig" %}
+          </div>
 
         </div>
-
-        <div class="col-md-6">
-          {% include "FOSUserBundle:Registration:register_content.html.twig" %}
-        </div>
-
       </div>
-    </div>
-  </section>
-  {% endif %}
+    </section>
+    {% endif %}
 
-{% endblock body %}
+  {% endblock body %}
