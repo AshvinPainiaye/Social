@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * AddFriend
  *
- * @ORM\Table(name="add_friend")
+ * @ORM\Table(name="friend")
  * @ORM\Entity(repositoryClass="Social\Bundle\Repository\AddFriendRepository")
  */
 class AddFriend
@@ -110,7 +110,7 @@ class AddFriend
     /**
      * Get date
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDate()
     {
