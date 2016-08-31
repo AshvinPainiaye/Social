@@ -41,7 +41,18 @@
             <img src="{{ asset('images/UserPost/')~ fil.imageName }}" alt="" class="img-responsive" />
             {% endif %}
             <br>
-            <a href="#">J'aime</a> <a href="{{ path('post_show', { 'id': fil.id }) }}">Commenter</a>
+
+            {% for like in fil.like if app.user.id == like.id %}
+            
+            <a href="{{path('post_like_new', {'id':fil.id}  )}}">J'aime plus</a>
+
+            {% else %}
+            <a href="{{path('post_like_new', {'id':fil.id}  )}}">J'aime</a>
+
+            {% endfor %}
+
+            <a href="{{ path('post_show', { 'id': fil.id }) }}">Commenter</a>
+
           </article>
 
           {% endfor %}
@@ -51,29 +62,47 @@
 
 
           {% for statut in posts %}
-               <br><br><br>
-               <article>
-                 <a href="{{ path('fos_user_profile_show', {'id': statut.id, 'user': statut.user })}}">
+          <br><br><br>
+          <article>
+            <a href="{{ path('fos_user_profile_show', {'id': statut.id, 'user': statut.user })}}">
 
-                   {% if statut.user.imageName is empty %}
-                   {% else %}
-                   <img src="{{ asset('images/UserProfile/')~ statut.user.imageName }}" alt="" class="avatarUser" />
-                   {% endif %}
+              {% if statut.user.imageName is empty %}
+              {% else %}
+              <img src="{{ asset('images/UserProfile/')~ statut.user.imageName }}" alt="" class="avatarUser" />
+              {% endif %}
 
-                    {{ statut.user }} </a>
-                 <br>
-                 {{ statut.statut }}
-                 <br>
-                 {% if statut.imageName is empty %}
-                 {% else %}
-                 <img src="{{ asset('images/UserPost/')~ statut.imageName }}" alt="" class="img-responsive" />
-                 {% endif %}
+              {{ statut.user }} </a>
+              <br>
+              {{ statut.statut }}
+              <br>
+              {% if statut.imageName is empty %}
+              {% else %}
+              <img src="{{ asset('images/UserPost/')~ statut.imageName }}" alt="" class="img-responsive" />
+              {% endif %}
 
-                 <br>
-                 <a href="#">J'aime</a> <a href="{{ path('post_show', { 'id': statut.id }) }}">Commenter</a>
+              <br>
 
-               </article>
-               {% endfor %}
+              {% for like in statut.like if app.user.id == like.id %}
+
+              <a href="{{path('post_like_new', {'id':statut.id}  )}}">J'aime plus</a>
+
+              {% else %}
+              <a href="{{path('post_like_new', {'id':statut.id}  )}}">J'aime</a>
+
+            {% endfor %}
+
+            <!-- {% if app.user.id  and statut.like is empty %}
+
+            <a href="{{path('post_like_new', {'id':statut.id}  )}}">J'aime</a>
+            {% else %}
+
+            <a href="{{path('post_like_new', {'id':statut.id}  )}}">J'aime plus</a>
+            {% endif %} -->
+
+            <a href="{{ path('post_show', { 'id': statut.id }) }}">Commenter</a>
+
+          </article>
+          {% endfor %}
 
 
 
@@ -103,6 +132,6 @@
       </div>
     </div>
   </section>
-{% endif %}
+  {% endif %}
 
 {% endblock body %}

@@ -69,7 +69,11 @@ class User extends BaseUser
     */
     private $friendReception;
 
-
+    /**
+     * @ORM\ManyToMany(targetEntity="Post", inversedBy="like")
+     * @ORM\JoinTable(name="post_like")
+     */
+    public $postlike;
 
     public function __construct()
     {
@@ -247,7 +251,7 @@ public function getImageName()
     /**
      * Get friendEnvoie
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getFriendEnvoie()
     {
@@ -280,10 +284,43 @@ public function getImageName()
     /**
      * Get friendReception
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getFriendReception()
     {
         return $this->friendReception;
+    }
+
+    /**
+     * Add postlike
+     *
+     * @param \Social\Bundle\Entity\Post $postlike
+     * @return User
+     */
+    public function addPostlike(\Social\Bundle\Entity\Post $postlike)
+    {
+        $this->postlike[] = $postlike;
+
+        return $this;
+    }
+
+    /**
+     * Remove postlike
+     *
+     * @param \Social\Bundle\Entity\Post $postlike
+     */
+    public function removePostlike(\Social\Bundle\Entity\Post $postlike)
+    {
+        $this->postlike->removeElement($postlike);
+    }
+
+    /**
+     * Get postlike
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPostlike()
+    {
+        return $this->postlike;
     }
 }

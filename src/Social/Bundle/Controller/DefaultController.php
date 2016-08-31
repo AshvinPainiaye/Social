@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Social\Bundle\Entity\Post;
 use Social\Bundle\Form\PostType;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -57,5 +58,48 @@ class DefaultController extends Controller
     ));
 
   }
+
+
+
+
+
+
+
+
+  /**
+  * Ajouter un like sur un article
+  * @Method({"GET", "POST"})
+  * @Route("post/{id}/like", name="post_like_new")
+  */
+  public function LikeDislikeToPost(Post $post, Request $request) {
+    $user = $this->getUser();
+    $listeLike = $post->getLike();
+    if ($listeLike->contains($user)) {
+      $post->removeLike($user);
+      $user->removePostlike($post);
+    } else {
+      $user->addPostlike($post);
+      $post->addLike($user);
+    }
+    $em = $this->getDoctrine()->getManager();
+    $em->persist($post);
+    $em->flush();
+    return $this->redirectToRoute('homepage');
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }

@@ -72,6 +72,14 @@ class Post
   */
   private $updatedAt;
 
+
+  /**
+   * @var
+   * @ORM\ManyToMany(targetEntity="User", mappedBy="postlike")
+   */
+  public $like;
+
+
   /**
   * Get id
   *
@@ -267,5 +275,38 @@ class Post
     public function getDate()
     {
         return $this->date;
+    }
+
+    /**
+     * Add like
+     *
+     * @param \Social\Bundle\Entity\User $like
+     * @return Post
+     */
+    public function addLike(\Social\Bundle\Entity\User $like)
+    {
+        $this->like[] = $like;
+
+        return $this;
+    }
+
+    /**
+     * Remove like
+     *
+     * @param \Social\Bundle\Entity\User $like
+     */
+    public function removeLike(\Social\Bundle\Entity\User $like)
+    {
+        $this->like->removeElement($like);
+    }
+
+    /**
+     * Get like
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getLike()
+    {
+        return $this->like;
     }
 }

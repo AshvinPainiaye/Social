@@ -72,6 +72,14 @@ class Post
   */
   private $updatedAt;
 
+
+  /**
+   * @var
+   * @ORM\ManyToMany(targetEntity="User", mappedBy="postlike")
+   */
+  public $like;
+
+
   /**
   * Get id
   *
