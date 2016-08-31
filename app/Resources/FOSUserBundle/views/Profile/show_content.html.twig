@@ -19,8 +19,8 @@
 
 
 {% for friends in friend if friends.envoieFriend.id == app.user.id %}
-
-<a href="{{ path('addfriend_show', { 'id': friends.id }) }}">ne plus suivre</a>
+{# {{dump(friends.receptionFriend.id)}} #}
+<a href="{{ path('addfriend_show', { 'id1': app.user.id,  'user1':app.user, 'id': friends.id}) }}">ne plus suivre</a>
 
 
 {% else %}

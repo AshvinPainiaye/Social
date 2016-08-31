@@ -31,12 +31,17 @@ class AddFriend
     */
     private $receptionFriend;
 
-
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date", type="datetime")
+     */
+    private $date;
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -59,7 +64,7 @@ class AddFriend
     /**
      * Get envoieFriend
      *
-     * @return \Social\Bundle\Entity\User 
+     * @return \Social\Bundle\Entity\User
      */
     public function getEnvoieFriend()
     {
@@ -82,10 +87,33 @@ class AddFriend
     /**
      * Get receptionFriend
      *
-     * @return \Social\Bundle\Entity\User 
+     * @return \Social\Bundle\Entity\User
      */
     public function getReceptionFriend()
     {
         return $this->receptionFriend;
+    }
+
+    /**
+     * Set date
+     *
+     * @param \DateTime $date
+     * @return AddFriend
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * Get date
+     *
+     * @return \DateTime 
+     */
+    public function getDate()
+    {
+        return $this->date;
     }
 }

@@ -28,6 +28,7 @@ class DefaultController extends Controller
     $actualites = $em->getRepository('SocialBundle:AddFriend')->findAll();
 
     $post = new Post();
+    $post->setDate(new \DateTime('now'));
     $formPost = $this->createForm('Social\Bundle\Form\PostType', $post);
     $formPost->handleRequest($request);
 

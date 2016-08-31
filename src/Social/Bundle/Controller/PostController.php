@@ -77,9 +77,10 @@ class PostController extends Controller
     $deleteForm = $this->createDeleteForm($post);
 
     $commentaire = new Commentaire();
+    $commentaire->setDate(new \DateTime('now'));
     $formComment = $this->createForm('Social\Bundle\Form\CommentaireType', $commentaire);
     $formComment->handleRequest($request);
-    
+
     $userId = $this->getUser();
     $userId->getId();
     $commentaire->setUser($userId);

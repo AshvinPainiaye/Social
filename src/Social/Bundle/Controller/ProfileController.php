@@ -25,6 +25,8 @@ class ProfileController extends Controller
   */
   public function showAction(Request $request, $id)
   {
+
+
     $userId = $this->getUser();
     $em = $this->getDoctrine()->getManager();
     $user = $em->getRepository('SocialBundle:User')->findAll();
@@ -36,6 +38,7 @@ class ProfileController extends Controller
     $posts = $em->getRepository('SocialBundle:Post')->findAll();
 
     $addFriend = new AddFriend();
+    $addFriend->setDate(new \DateTime('now'));
     $formAddFriend = $this->createForm('Social\Bundle\Form\AddFriendType', $addFriend);
     $formAddFriend->handleRequest($request);
 
@@ -43,18 +46,18 @@ class ProfileController extends Controller
     $userEnvoie = $this->getUser();
     $userEnvoie->getId();
 
-    $id = $em->getRepository('SocialBundle:User')->findOneById($id);
-
-    $friend = $em->getRepository('SocialBundle:AddFriend')->findBy(['receptionFriend'=>$id]);
+    $username = $em->getRepository('SocialBundle:User')->findOneById($id);
+    $friend = $em->getRepository('SocialBundle:AddFriend')->findBy(['receptionFriend'=>$username]);
 
 
     if ($formAddFriend->isSubmitted() && $formAddFriend->isValid()) {
-      $addFriend->setEnvoieFriend($userEnvoie)->setReceptionFriend($id);
+      $addFriend->setEnvoieFriend($userEnvoie)->setReceptionFriend($username);
       $em = $this->getDoctrine()->getManager();
       $em->persist($addFriend);
       $em->flush();
 
-      return $this->redirectToRoute('homepage');
+       return $this->redirectToRoute('fos_user_profile_show',  array('id'=> $id, 'user' => $username ));
+
     }
 
     return $this->render('FOSUserBundle:Profile:show.html.twig', array(
@@ -119,5 +122,38 @@ class ProfileController extends Controller
     ));
   }
 
+
+
+  public function showFriendAction(AddFriend $addFriend)
+  {
+      $deleteForm = $this->createDeleteForm($addFriend);
+      return $this->render('addfriend/show.html.twig', array(
+          'addFriend' => $addFriend,
+          'delete_form' => $deleteForm->createView(),
+      ));
+  }
+
+  public function deleteAction(Request $request, AddFriend $addFriend)
+  {
+      $form = $this->createDeleteForm($addFriend);
+      $form->handleRequest($request);
+      if ($form->isSubmitted() && $form->isValid()) {
+          $em = $this->getDoctrine()->getManager();
+          $em->remove($addFriend);
+          $em->flush();
+      }
+       return $this->redirectToRoute('homepage');
+
+  }
+
+  public function createDeleteForm(AddFriend $addFriend)
+  {
+
+      return $this->createFormBuilder()
+      ->setAction($this->generateUrl('addfriend_delete', array('id1'=>$user=$this->getUser()->getId(), 'user1'=>$user=$this->getUser(), 'id' => $addFriend->getId())))
+          ->setMethod('DELETE')
+          ->getForm()
+      ;
+  }
 
 }

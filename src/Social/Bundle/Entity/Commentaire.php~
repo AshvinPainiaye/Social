@@ -41,6 +41,13 @@ class Commentaire
     private $post;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date", type="datetime")
+     */
+    private $date;
+    
+    /**
      * Get id
      *
      * @return integer
@@ -112,10 +119,33 @@ class Commentaire
     /**
      * Get post
      *
-     * @return \Social\Bundle\Entity\Post 
+     * @return \Social\Bundle\Entity\Post
      */
     public function getPost()
     {
         return $this->post;
+    }
+
+    /**
+     * Set date
+     *
+     * @param \DateTime $date
+     * @return Commentaire
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * Get date
+     *
+     * @return \DateTime 
+     */
+    public function getDate()
+    {
+        return $this->date;
     }
 }

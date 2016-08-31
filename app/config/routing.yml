@@ -29,3 +29,16 @@ fos_user_resetting:
 fos_user_change_password:
     resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
     prefix: /profile/{id}/{user}
+
+
+
+addfriend_show:
+    defaults: { _controller: SocialBundle:Profile:showFriend }
+    path: /unfollow/{id1}/{user1}/{id}
+    methods:  [GET]
+
+
+addfriend_delete:
+    defaults: { _controller: SocialBundle:Profile:delete }
+    path: /unfollow/{id1}/{user1}/{id}
+    methods:  [GET, DELETE]

@@ -42,6 +42,12 @@ class Post
   */
   private $commentaire;
 
+  /**
+   * @var \DateTime
+   *
+   * @ORM\Column(name="date", type="datetime")
+   */
+  private $date;
 
   /**
   * NOTE: This is not a mapped field of entity metadata, just a simple property.
@@ -53,14 +59,14 @@ class Post
   private $imageFile;
 
   /**
-  * @ORM\Column(type="string", length=255)
+  * @ORM\Column(type="string", length=255, nullable=true)
   *
   * @var string
   */
   private $imageName;
 
   /**
-  * @ORM\Column(type="datetime")
+  * @ORM\Column(type="datetime", nullable=true)
   *
   * @var \DateTime
   */
@@ -233,10 +239,33 @@ class Post
     /**
      * Get updatedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
         return $this->updatedAt;
+    }
+
+    /**
+     * Set date
+     *
+     * @param \DateTime $date
+     * @return Post
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * Get date
+     *
+     * @return \DateTime
+     */
+    public function getDate()
+    {
+        return $this->date;
     }
 }
