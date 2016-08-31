@@ -62,68 +62,19 @@
             <br>
             {% for comment in fil.commentaire|slice(0, 5) if comment is not empty %}
 
-            {{ comment.commentaire }}
-            <br>
+            <a href="{{ path('fos_user_profile_show', {'id': comment.user.id, 'user': comment.user })}}">
 
-            {% else %}
-            aucun commentaire
-
-            {% endfor %}
-
-
-          </article>
-          <hr>
-
-          {% endfor %}
-          {% endif %}
-          {% endfor %}
-
-
-          {% for statut in posts %}
-          <br><br><br>
-          <article>
-            <a href="{{ path('fos_user_profile_show', {'id': statut.id, 'user': statut.user })}}">
-
-              {% if statut.user.imageName is empty %}
+              {% if comment.user.imageName is empty %}
+              <img src="{{ asset('images/user_icon_default_social.jpg/') }}" alt="" class="avatarUser" />
               {% else %}
-              <img src="{{ asset('images/UserProfile/')~ statut.user.imageName }}" alt="" class="avatarUser" />
+              <img src="{{ asset('images/UserProfile/')~ comment.user.imageName }}" alt="" class="avatarUser" />
               {% endif %}
 
-              {{ statut.user }} </a>
-              <br>
-              {{ statut.statut }}
-              <br>
-              {% if statut.imageName is empty %}
-              {% else %}
-              <img src="{{ asset('images/UserPost/')~ statut.imageName }}" alt="" class="img-responsive" />
-              {% endif %}
+              {{ comment.user }} </a>
 
               <br>
-
-              {% for like in statut.like %}
-              {% if app.user.id == like.id  %}
-              <a href="{{path('post_like_new', {'id':statut.id}  )}}">J'aime plus </a> {{ statut.like|length }}
-              {% endif %}
-              {% endfor %}
-
-              {% for like in statut.like if app.user.id == like.id %}
-              {% else %}
-              <a href="{{path('post_like_new', {'id':statut.id}  )}}">J'aime</a>  {{ statut.like|length }}
-              {% endfor %}
-
-
-              <a href="{{ path('post_show', { 'id': statut.id }) }}">Commenter</a>
-
-              <br><br>
-
-              {% for comment in statut.commentaire|slice(0, 1) if comment is not empty %}
-              <strong>Dernier commentaire</strong>
-              {% endfor %}
-              <br>
-              {% for comment in statut.commentaire|slice(0, 5) if comment is not empty %}
-
               {{ comment.commentaire }}
-              <br>
+              <br><br>
 
               {% else %}
               aucun commentaire
@@ -131,37 +82,109 @@
               {% endfor %}
 
 
-
-
             </article>
             <hr>
+
+            {% endfor %}
+            {% endif %}
             {% endfor %}
 
 
+            {% for statut in posts %}
+            <br><br><br>
+            <article>
+              <a href="{{ path('fos_user_profile_show', {'id': statut.user.id, 'user': statut.user })}}">
 
-          </div>
-          <div class="col-md-3">
-            <!-- -->
+                {% if statut.user.imageName is empty %}
+                <img src="{{ asset('images/user_icon_default_social.jpg/') }}" alt="" class="avatarUser" />
+                {% else %}
+                <img src="{{ asset('images/UserProfile/')~ statut.user.imageName }}" alt="" class="avatarUser" />
+                {% endif %}
+
+                {{ statut.user }} </a>
+                <br>
+                {{ statut.statut }}
+                <br>
+                {% if statut.imageName is empty %}
+                {% else %}
+                <img src="{{ asset('images/UserPost/')~ statut.imageName }}" alt="" class="img-responsive" />
+                {% endif %}
+
+                <br>
+
+                {% for like in statut.like %}
+                {% if app.user.id == like.id  %}
+                <a href="{{path('post_like_new', {'id':statut.id}  )}}">J'aime plus </a> {{ statut.like|length }}
+                {% endif %}
+                {% endfor %}
+
+                {% for like in statut.like if app.user.id == like.id %}
+                {% else %}
+                <a href="{{path('post_like_new', {'id':statut.id}  )}}">J'aime</a>  {{ statut.like|length }}
+                {% endfor %}
+
+
+                <a href="{{ path('post_show', { 'id': statut.id }) }}">Commenter</a>
+
+                <br><br>
+
+                {% for comment in statut.commentaire|slice(0, 1) if comment is not empty %}
+                <strong>Dernier commentaire</strong>
+                {% endfor %}
+                <br>
+                {% for comment in statut.commentaire|slice(0, 5) if comment is not empty %}
+
+                <a href="{{ path('fos_user_profile_show', {'id': comment.user.id, 'user': comment.user })}}">
+
+                  {% if comment.user.imageName is empty %}
+                  <img src="{{ asset('images/user_icon_default_social.jpg/') }}" alt="" class="avatarUser" />
+                  {% else %}
+                  <img src="{{ asset('images/UserProfile/')~ comment.user.imageName }}" alt="" class="avatarUser" />
+                  {% endif %}
+
+                  {{ comment.user }} </a>
+
+                  <br>
+                  {{ comment.commentaire }}
+                  <br><br>
+
+                {% else %}
+                aucun commentaire
+
+                {% endfor %}
+
+
+
+
+              </article>
+              <hr>
+              {% endfor %}
+
+
+
+            </div>
+            <div class="col-md-3">
+              <!-- -->
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    {% else %}
-    <section>
-      <div class="container">
-        <div class="row">
-          <div class="col-md-6">
+      {% else %}
+      <section>
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6">
+
+            </div>
+
+            <div class="col-md-6">
+              {% include "FOSUserBundle:Registration:register_content.html.twig" %}
+            </div>
 
           </div>
-
-          <div class="col-md-6">
-            {% include "FOSUserBundle:Registration:register_content.html.twig" %}
-          </div>
-
         </div>
-      </div>
-    </section>
-  {% endif %}
+      </section>
+      {% endif %}
 
-{% endblock body %}
+    {% endblock body %}
