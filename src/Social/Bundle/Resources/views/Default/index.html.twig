@@ -54,8 +54,25 @@
             {% endfor %}
 
             <a href="{{ path('post_show', { 'id': fil.id }) }}">Commenter</a>
+            <br><br>
+
+            {% for comment in fil.commentaire|slice(0, 1) if comment is not empty %}
+            <strong>Dernier commentaire</strong>
+            {% endfor %}
+            <br>
+            {% for comment in fil.commentaire|slice(0, 5) if comment is not empty %}
+
+            {{ comment.commentaire }}
+            <br>
+
+            {% else %}
+            aucun commentaire
+
+            {% endfor %}
+
 
           </article>
+          <hr>
 
           {% endfor %}
           {% endif %}
@@ -97,7 +114,27 @@
 
               <a href="{{ path('post_show', { 'id': statut.id }) }}">Commenter</a>
 
+              <br><br>
+
+              {% for comment in statut.commentaire|slice(0, 1) if comment is not empty %}
+              <strong>Dernier commentaire</strong>
+              {% endfor %}
+              <br>
+              {% for comment in statut.commentaire|slice(0, 5) if comment is not empty %}
+
+              {{ comment.commentaire }}
+              <br>
+
+              {% else %}
+              aucun commentaire
+
+              {% endfor %}
+
+
+
+
             </article>
+            <hr>
             {% endfor %}
 
 
@@ -125,6 +162,6 @@
         </div>
       </div>
     </section>
-    {% endif %}
+  {% endif %}
 
-  {% endblock body %}
+{% endblock body %}

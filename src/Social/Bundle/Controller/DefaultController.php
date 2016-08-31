@@ -13,6 +13,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 
+
 class DefaultController extends Controller
 {
   /**
@@ -39,6 +40,7 @@ class DefaultController extends Controller
       $userId->getId();
       $post->setUser($userId);
       $posts = $em->getRepository('SocialBundle:Post')->findBy(['user'=>$userId]);
+
     }
 
     if ($formPost->isSubmitted() && $formPost->isValid()) {
@@ -48,6 +50,7 @@ class DefaultController extends Controller
 
       return $this->redirectToRoute('homepage');
     }
+
 
     return $this->render('SocialBundle:Default:index.html.twig', array(
       'posts' => $posts,
