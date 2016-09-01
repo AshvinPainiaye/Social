@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+
+{% if rechercheUser is empty %}
+Aucun resultat trouver
+{% endif %}
+
+{% for recherche in rechercheUser %}
+Resultat :
+
+  <a href="{{ path('fos_user_profile_show', {'id': recherche.id, 'user': recherche.username })}}">
+
+    {% if recherche.imageName is empty %}
+    <img src="{{ asset('images/user_icon_default_social.jpg/') }}" alt="" class="avatarUser" />
+    {% else %}
+    <img src="{{ asset('images/UserProfile/')~ recherche.imageName }}" alt="" class="avatarUser" />
+    {% endif %}
+
+    {{ recherche.username }} </a>
+
+{% endfor %}
+
+{% endblock %}

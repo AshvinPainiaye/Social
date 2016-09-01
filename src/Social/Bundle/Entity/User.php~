@@ -75,6 +75,7 @@ class User extends BaseUser
      */
     public $postlike;
 
+
     public function __construct()
     {
         parent::__construct();
@@ -304,6 +305,7 @@ public function getImageName()
         return $this;
     }
 
+
     /**
      * Remove postlike
      *
@@ -322,5 +324,28 @@ public function getImageName()
     public function getPostlike()
     {
         return $this->postlike;
+    }
+
+    /**
+     * Set listUser
+     *
+     * @param \Social\Bundle\Entity\Search $listUser
+     * @return User
+     */
+    public function setListUser(\Social\Bundle\Entity\Search $listUser = null)
+    {
+        $this->listUser = $listUser;
+
+        return $this;
+    }
+
+    /**
+     * Get listUser
+     *
+     * @return \Social\Bundle\Entity\Search
+     */
+    public function getListUser()
+    {
+        return $this->listUser;
     }
 }

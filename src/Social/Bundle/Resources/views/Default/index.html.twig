@@ -4,6 +4,11 @@
 
 {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
 
+{{ form_start(formSearch) }}
+{{ form_widget(formSearch) }}
+<input type="submit" value="Rechercher" />
+{{ form_end(formSearch) }}
+
 <section>
   <div class="container">
     <div class="row">
@@ -158,31 +163,45 @@
                 {% endif %}
                 {% endfor %}
 
-
+                
 
               </div>
               <div class="col-md-3">
-                <!-- -->
+                <h3>Les Dernier Inscrit</h3>
+                {% for user in allUser|reverse|slice(0,5) %}
+
+                <a href="{{ path('fos_user_profile_show', {'id': user.id, 'user': user.username })}}">
+
+                  {% if user.imageName is empty %}
+                  <img src="{{ asset('images/user_icon_default_social.jpg/') }}" alt="" class="avatarUser" />
+                  {% else %}
+                  <img src="{{ asset('images/UserProfile/')~ user.imageName }}" alt="" class="avatarUser" />
+                  {% endif %}
+
+                  {{ user.username }} </a>
+                  <br><br>
+
+                  {% endfor %}
+                </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
 
-        {% else %}
-        <section>
-          <div class="container">
-            <div class="row">
-              <div class="col-md-6">
+          {% else %}
+          <section>
+            <div class="container">
+              <div class="row">
+                <div class="col-md-6">
+
+                </div>
+
+                <div class="col-md-6">
+                  {% include "FOSUserBundle:Registration:register_content.html.twig" %}
+                </div>
 
               </div>
-
-              <div class="col-md-6">
-                {% include "FOSUserBundle:Registration:register_content.html.twig" %}
-              </div>
-
             </div>
-          </div>
-        </section>
-        {% endif %}
+          </section>
+          {% endif %}
 
-        {% endblock body %}
+          {% endblock body %}
