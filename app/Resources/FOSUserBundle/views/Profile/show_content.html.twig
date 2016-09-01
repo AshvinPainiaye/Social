@@ -1,25 +1,41 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
 <div class="fos_user_user_show">
-  <!-- <p>{{ 'profile.show.username'|trans }}: {#{ user.username }#}</p>
-  <p>{{ 'profile.show.email'|trans }}: {#{ user.email }#}</p> -->
 
   {% for user in user %}
-
   {% if app.request.get('id') == user.id %}
-
   {{ user.username }}
   {{ user.email }}
-
   {% endif %}
-
   {% endfor %}
   <br><br><br>
 
 
+Abonnées
+
+{% for nbAbonne in follower %}
+{% if nbAbonne.receptionFriend.id == app.request.get('id') %}
+<br>
+- {{ nbAbonne.envoieFriend.username }}
+<br>
+{% endif %}
+{% endfor %}
+
+<br><br>
+
+ Abonnement
+<br>
+{% for abonnement in follower %}
+{% if abonnement.envoieFriend.id == app.request.get('id') %}
+<br>
+- {{ abonnement.receptionFriend.username }}
+<br>
+{% endif %}
+{% endfor %}
+
 
 {% for friends in friend if friends.envoieFriend.id == app.user.id %}
-{# {{dump(friends.receptionFriend.id)}} #}
+
 <a href="{{ path('addfriend_show', { 'id1': app.user.id,  'user1':app.user, 'id': friends.id}) }}">ne plus suivre</a>
 
 

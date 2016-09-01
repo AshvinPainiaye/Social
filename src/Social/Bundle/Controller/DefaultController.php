@@ -70,7 +70,7 @@ class DefaultController extends Controller
 
 
   /**
-  * Ajouter un like sur un article
+  * Ajouter un like sur un post
   * @Method({"GET", "POST"})
   * @Route("post/{id}/like", name="post_like_new")
   */

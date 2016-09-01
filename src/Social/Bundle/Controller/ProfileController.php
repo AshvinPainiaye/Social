@@ -48,6 +48,8 @@ class ProfileController extends Controller
 
     $username = $em->getRepository('SocialBundle:User')->findOneById($id);
     $friend = $em->getRepository('SocialBundle:AddFriend')->findBy(['receptionFriend'=>$username]);
+    $follower = $em->getRepository('SocialBundle:AddFriend')->findAll();
+
 
 
     if ($formAddFriend->isSubmitted() && $formAddFriend->isValid()) {
@@ -66,6 +68,7 @@ class ProfileController extends Controller
       'addFriend' => $addFriend,
       'formAddFriend' => $formAddFriend->createView(),
       'friend' => $friend,
+      'follower' => $follower,
     ));
   }
 
