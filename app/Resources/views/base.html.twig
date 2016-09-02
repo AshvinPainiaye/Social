@@ -27,7 +27,7 @@
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav navbar-right">
           {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-          
+
           <li><a href="{{path('homepage')}}">Accueil</a></li>
           <li><a href="{{path('fos_user_profile_show', {'id': app.user.id, 'user': app.user})}}">
 
@@ -56,6 +56,8 @@
     {% block javascripts %}
     <script type="text/javascript" src="//code.jquery.com/jquery.min.js"></script>
     <script type="text/javascript" src=" {{asset('bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
     <script src="{{asset('js/main.js')}}"></script>
     {% endblock %}
   </body>

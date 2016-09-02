@@ -80,22 +80,40 @@ class DefaultController extends Controller
   /**
   * Ajouter un like sur un post
   * @Method({"GET", "POST"})
-  * @Route("post/{id}/like", name="post_like_new")
+  * @Route("post/{id}/like", name="post_like_new", options={"expose"=true})
   */
   public function LikeDislikeToPost(Post $post, Request $request) {
     $user = $this->getUser();
     $listeLike = $post->getLike();
+
+    $em = $this->getDoctrine()->getManager();
+  $serializer = $this->get('jms_serializer');
+   if ($request->isXmlHttpRequest()) {
     if ($listeLike->contains($user)) {
       $post->removeLike($user);
       $user->removePostlike($post);
+      $em->persist($post);
+      $em->flush();
+      $checkLikers = $this->getDoctrine()->getRepository(Post::class)->find($post)->getLike();
+        $serialized = $serializer->serialize(count($checkLikers), 'json');
+               return new JsonResponse($serialized, 200);
     } else {
       $user->addPostlike($post);
       $post->addLike($user);
+      $em->persist($post);
+      $em->flush();
+      $checkLikers = $this->getDoctrine()->getRepository(Post::class)->find($post)->getLike();
+        $serialized = $serializer->serialize(count($checkLikers), 'json');
+               return new JsonResponse($serialized, 200);
     }
-    $em = $this->getDoctrine()->getManager();
-    $em->persist($post);
-    $em->flush();
-    return $this->redirectToRoute('homepage');
-  }
+    // $em->persist($post);
+    // $em->flush();
 
+  //  $checkLikers = $this->getDoctrine()->getRepository(Post::class)->find($post)->getLike();
+  //    $serialized = $serializer->serialize(count($checkLikers), 'json');
+  //           return new JsonResponse($serialized, 200);
+  }
+  return $this->redirectToRoute('homepage');
+
+ }
 }

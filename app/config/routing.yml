@@ -42,3 +42,7 @@ addfriend_delete:
     defaults: { _controller: SocialBundle:Profile:delete }
     path: /unfollow/{id1}/{user1}/{id}
     methods:  [GET, DELETE]
+
+
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"

@@ -49,13 +49,18 @@
 
             {% for like in statut.like %}
             {% if app.user.id == like.id  %}
-            <a href="{{path('post_like_new', {'id':statut.id}  )}}">J'aime plus </a> {{ statut.like|length }}
+            <a class="likePost" id="{{statut.id}}"><span class="removeLike2">J'aime plus</span><span class="addLike2 hidden">J'aime</span></a>
+            <span id="post{{statut.id}}"> {{statut.like|length}} </span>
+
             {% endif %}
             {% endfor %}
 
             {% for like in statut.like if app.user.id == like.id %}
             {% else %}
-            <a href="{{path('post_like_new', {'id':statut.id}  )}}">J'aime</a>  {{ statut.like|length }}
+  
+            <a class="likePost" id="{{statut.id}}"><span class="addLike">J'aime</span><span class="removeLike hidden">J'aime plus</span></a>
+            <span id="post{{statut.id}}"> {{statut.like|length}} </span>
+
             {% endfor %}
 
             <a href="{{ path('post_show', { 'id': statut.id }) }}">Commenter</a>
@@ -122,13 +127,15 @@
 
                 {% for like in fil.like %}
                 {% if app.user.id == like.id  %}
-                <a href="{{path('post_like_new', {'id':fil.id}  )}}">J'aime plus </a> {{ fil.like|length }}
+                <a class="likePost" id="{{fil.id}}"><span class="removeLike2">J'aime plus</span><span class="addLike2 hidden">J'aime</span></a>
+                <span id="post{{fil.id}}"> {{fil.like|length}} </span>
                 {% endif %}
                 {% endfor %}
 
                 {% for like in fil.like if app.user.id == like.id %}
                 {% else %}
-                <a href="{{path('post_like_new', {'id':fil.id}  )}}">J'aime</a>  {{ fil.like|length }}
+                <a class="likePost" id="{{fil.id}}"><span class="addLike">J'aime</span><span class="removeLike hidden">J'aime plus</span></a>
+                <span id="post{{fil.id}}"> {{fil.like|length}} </span>
                 {% endfor %}
 
                 <a href="{{ path('post_show', { 'id': fil.id }) }}">Commenter</a>
@@ -163,7 +170,7 @@
                 {% endif %}
                 {% endfor %}
 
-                
+
 
               </div>
               <div class="col-md-3">
