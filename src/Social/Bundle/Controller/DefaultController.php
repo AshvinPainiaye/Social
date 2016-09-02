@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class DefaultController extends Controller
 {
   /**
-  * @Route("/")
+  * @Route("/", name="homepage", options={"expose"=true})
   */
   public function indexAction(Request $request)
   {
@@ -53,16 +53,15 @@ class DefaultController extends Controller
       $userId->getId();
       $post->setUser($userId);
       $posts = $em->getRepository('SocialBundle:Post')->findBy(['user'=>$userId]);
-
     }
 
-    if ($formPost->isSubmitted() && $formPost->isValid()) {
-      $em = $this->getDoctrine()->getManager();
-      $em->persist($post);
-      $em->flush();
 
-      return $this->redirectToRoute('homepage');
-    }
+        if ($formPost->isValid()) {
+          $em = $this->getDoctrine()->getManager();
+          $em->persist($post);
+          $em->flush();
+          return $this->redirectToRoute('homepage');
+        }
 
 
     return $this->render('SocialBundle:Default:index.html.twig', array(
@@ -73,6 +72,7 @@ class DefaultController extends Controller
       'actualites' => $actualites,
       'formSearch' => $formSearch->createView(),
       'allUser' => $allUser,
+      'base_dir' => realpath($this->container->getParameter('kernel.root_dir').'/..'),
     ));
   }
 
@@ -87,33 +87,29 @@ class DefaultController extends Controller
     $listeLike = $post->getLike();
 
     $em = $this->getDoctrine()->getManager();
-  $serializer = $this->get('jms_serializer');
-   if ($request->isXmlHttpRequest()) {
-    if ($listeLike->contains($user)) {
-      $post->removeLike($user);
-      $user->removePostlike($post);
-      $em->persist($post);
-      $em->flush();
-      $checkLikers = $this->getDoctrine()->getRepository(Post::class)->find($post)->getLike();
+    $serializer = $this->get('jms_serializer');
+    if ($request->isXmlHttpRequest()) {
+      if ($listeLike->contains($user)) {
+        $post->removeLike($user);
+        $user->removePostlike($post);
+        $em->persist($post);
+        $em->flush();
+        $checkLikers = $this->getDoctrine()->getRepository(Post::class)->find($post)->getLike();
         $serialized = $serializer->serialize(count($checkLikers), 'json');
-               return new JsonResponse($serialized, 200);
-    } else {
-      $user->addPostlike($post);
-      $post->addLike($user);
-      $em->persist($post);
-      $em->flush();
-      $checkLikers = $this->getDoctrine()->getRepository(Post::class)->find($post)->getLike();
+        return new JsonResponse($serialized, 200);
+      } else {
+        $user->addPostlike($post);
+        $post->addLike($user);
+        $em->persist($post);
+        $em->flush();
+        $checkLikers = $this->getDoctrine()->getRepository(Post::class)->find($post)->getLike();
         $serialized = $serializer->serialize(count($checkLikers), 'json');
-               return new JsonResponse($serialized, 200);
+        return new JsonResponse($serialized, 200);
+      }
     }
-    // $em->persist($post);
-    // $em->flush();
-
-  //  $checkLikers = $this->getDoctrine()->getRepository(Post::class)->find($post)->getLike();
-  //    $serialized = $serializer->serialize(count($checkLikers), 'json');
-  //           return new JsonResponse($serialized, 200);
+    return $this->redirectToRoute('homepage');
   }
-  return $this->redirectToRoute('homepage');
 
- }
+
+
 }

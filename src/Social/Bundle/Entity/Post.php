@@ -45,7 +45,7 @@ class Post
   /**
    * @var \DateTime
    *
-   * @ORM\Column(name="date", type="datetime")
+   * @ORM\Column(name="date", type="datetime", nullable=true)
    */
   private $date;
 
@@ -303,7 +303,7 @@ class Post
     /**
      * Get like
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getLike()
     {

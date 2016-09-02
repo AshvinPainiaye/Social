@@ -4,23 +4,25 @@
 
 {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
 
-{{ form_start(formSearch) }}
-{{ form_widget(formSearch) }}
-<input type="submit" value="Rechercher" />
-{{ form_end(formSearch) }}
 
 <section>
   <div class="container">
     <div class="row">
-      <div class="col-md-3">
-        <!-- -->
+      <div class="col-md-3 ui-widget">
+
+        {{ form_start(formSearch) }}
+        {{ form_widget(formSearch) }}
+        <input type="submit" value="Rechercher" />
+        {{ form_end(formSearch) }}
       </div>
+
       <div class="col-md-6">
 
         {{ form_start(formPost) }}
         {{ form_widget(formPost) }}
         <input type="submit" value="Create" />
         {{ form_end(formPost) }}
+
 
 
         {% for statut in posts|reverse|slice(0,1) %}
@@ -57,7 +59,7 @@
 
             {% for like in statut.like if app.user.id == like.id %}
             {% else %}
-  
+
             <a class="likePost" id="{{statut.id}}"><span class="addLike">J'aime</span><span class="removeLike hidden">J'aime plus</span></a>
             <span id="post{{statut.id}}"> {{statut.like|length}} </span>
 
@@ -212,3 +214,20 @@
           {% endif %}
 
           {% endblock body %}
+
+          {% block searchUser %}
+          <link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
+          <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+          <script type="text/javascript">
+          $( function() {
+            var availableTags = [
+              {% for item in allUser %}
+              "{{ item.username }}",
+              {% endfor %}  ]
+
+              $( "#recherche_user_recherche" ).autocomplete({
+                source: availableTags
+              });
+            } );
+            </script>
+            {% endblock searchUser %}

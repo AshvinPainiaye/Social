@@ -39,26 +39,28 @@ class PostController extends Controller
   /**
   * Creates a new Post entity.
   *
-  * @Route("/new", name="post_new")
+  * @Route("/new", name="post_new", options={"expose"=true})
   * @Method({"GET", "POST"})
   */
   public function newAction(Request $request)
   {
-    $post = new Post();
-    $form = $this->createForm('Social\Bundle\Form\PostType', $post);
-    $form->handleRequest($request);
-
-    $userId = $this->getUser();
-    $userId->getId();
-    $post->setUser($userId);
-
-    if ($form->isSubmitted() && $form->isValid()) {
-      $em = $this->getDoctrine()->getManager();
-      $em->persist($post);
-      $em->flush();
-
-      return $this->redirectToRoute('post_show', array('id' => $post->getId()));
-    }
+    // $post = new Post();
+    // $form = $this->createForm('Social\Bundle\Form\PostType', $post);
+    // $form->handleRequest($request);
+    //
+    // $userId = $this->getUser();
+    // $userId->getId();
+    // $post->setUser($userId);
+    //
+    // if ($form->isSubmitted() && $form->isValid()) {
+    //   $em = $this->getDoctrine()->getManager();
+    //   $em->persist($post);
+    //   $em->flush();
+    //
+    //   // return $this->redirectToRoute('post_show', array('id' => $post->getId()));
+    //   return $this->redirectToRoute('homepage');
+    //
+    // }
 
     return $this->render('post/new.html.twig', array(
       'post' => $post,
