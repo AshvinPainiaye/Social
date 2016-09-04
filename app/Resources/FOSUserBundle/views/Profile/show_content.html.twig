@@ -60,7 +60,17 @@ Abonnées
   <br><br><br>
 
   <article>
-    <a href="{{ path('fos_user_profile_show', {'id': statut.user.id, 'user': statut.user })}}"> {{ statut.user }} </a>
+
+    <a href="{{ path('fos_user_profile_show', {'id': statut.user.id, 'user': statut.user })}}">
+
+      {% if statut.user.imageName is empty %}
+      <img src="{{ asset('images/user_icon_default_social.jpg/') }}" alt="" class="avatarUser" />
+      {% else %}
+      <img src="{{ asset('images/UserProfile/')~ statut.user.imageName }}" alt="" class="avatarUser" />
+      {% endif %}
+
+      {{ statut.user }} </a>
+
     <br>
     {{ statut.statut }}
     <br>
@@ -70,7 +80,50 @@ Abonnées
     {% endif %}
 
     <br>
-    <a href="#">J'aime</a> <a href="{{ path('post_show', { 'id': statut.id }) }}">Commenter</a>
+
+    {% for like in statut.like %}
+    {% if app.user.id == like.id  %}
+    <a class="likePost" id="{{statut.id}}"><span class="removeLike2">J'aime plus</span><span class="addLike2 hidden">J'aime</span></a>
+    <span id="post{{statut.id}}"> {{statut.like|length}} </span>
+
+    {% endif %}
+    {% endfor %}
+
+    {% for like in statut.like if app.user.id == like.id %}
+    {% else %}
+
+    <a class="likePost" id="{{statut.id}}"><span class="addLike">J'aime</span><span class="removeLike hidden">J'aime plus</span></a>
+    <span id="post{{statut.id}}"> {{statut.like|length}} </span>
+
+    {% endfor %}
+
+    <a href="{{ path('post_show', { 'id': statut.id }) }}">Commenter</a>
+
+    <br><br>
+
+    {% for comment in statut.commentaire|slice(0, 1) if comment is not empty %}
+    <strong>Dernier commentaire</strong>
+    {% endfor %}
+    <br>
+    {% for comment in statut.commentaire|slice(0, 5) if comment is not empty %}
+
+    <a href="{{ path('fos_user_profile_show', {'id': comment.user.id, 'user': comment.user })}}">
+
+      {% if comment.user.imageName is empty %}
+      <img src="{{ asset('images/user_icon_default_social.jpg/') }}" alt="" class="avatarUser" />
+      {% else %}
+      <img src="{{ asset('images/UserProfile/')~ comment.user.imageName }}" alt="" class="avatarUser" />
+      {% endif %}
+
+      {{ comment.user }} </a>
+
+      <br>
+      {{ comment.commentaire }}
+      <br><br>
+
+      {% else %}
+      aucun commentaire
+      {% endfor %}
 
   </article>
 

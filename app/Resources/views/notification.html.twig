@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<section id="notification">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <h3 class="text-center">Follow</h3>
+        <br>
+        {% for follow in follow %}
+
+        <a href="{{ path('fos_user_profile_show', {'id': follow.envoieFriend.id, 'user': follow.envoieFriend.username })}}">
+          {% if follow.envoieFriend.imageName is empty %}
+          <img src="{{ asset('images/user_icon_default_social.jpg/') }}" alt="" class="avatarUser" />
+          {% else %}
+          <img src="{{ asset('images/UserProfile/')~ follow.envoieFriend.imageName }}" alt="" class="avatarUser" />
+          {% endif %}
+
+          {{ follow.envoieFriend.username }}</a> vous suit
+          <br><br>
+          {% endfor %}
+
+        </div>
+        <div class="col-md-4">
+          <h3 class="text-center">J'aime</h3>
+          <br>
+          {% for notificationLike in like %}
+          {% for nLike in notificationLike.like %}
+          {% if nLike.username != app.user %}
+
+          <a href="{{ path('fos_user_profile_show', {'id': nLike.id, 'user': nLike.username })}}">
+            {% if nLike.imageName is empty %}
+            <img src="{{ asset('images/user_icon_default_social.jpg/') }}" alt="" class="avatarUser" />
+            {% else %}
+            <img src="{{ asset('images/UserProfile/')~ nLike.imageName }}" alt="" class="avatarUser" />
+            {% endif %}
+
+            {{ nLike.username }} </a> aime votre publication
+
+            <a href="{{ path('post_show', { 'id': notificationLike.id }) }}">{{ notificationLike.statut }}</a>
+
+            <br><br>
+            {% endif %}
+            {% endfor %}
+            {% endfor %}
+
+          </div>
+          <div class="col-md-4">
+
+            <h3 class="text-center">Commentaire</h3>
+            <br>
+            {% for commentaire in comment %}
+            {% if commentaire.post.user.id == app.user.id %}
+
+            <a href="{{ path('fos_user_profile_show', {'id': commentaire.user.id, 'user': commentaire.user.username })}}">
+              {% if commentaire.user.imageName is empty %}
+              <img src="{{ asset('images/user_icon_default_social.jpg/') }}" alt="" class="avatarUser" />
+              {% else %}
+              <img src="{{ asset('images/UserProfile/')~ commentaire.user.imageName }}" alt="" class="avatarUser" />
+              {% endif %}
+
+              {{ commentaire.user.username }} </a>
+
+              a commenter votre publication
+
+              <a href="{{ path('post_show', { 'id': commentaire.post.id }) }}">{{ commentaire.post.statut }}</a>
+              
+              <br><br>
+              {% endif %}
+              {% endfor %}
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+    {% endblock %}

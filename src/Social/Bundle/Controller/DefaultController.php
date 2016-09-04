@@ -32,6 +32,8 @@ class DefaultController extends Controller
     $formPost = $this->createForm('Social\Bundle\Form\PostType', $post);
     $formPost->handleRequest($request);
 
+
+
     $formSearch = $this->createForm(new SearchType());
     $request = $this->getRequest();
     if($request->getMethod() == 'POST')
@@ -46,6 +48,7 @@ class DefaultController extends Controller
         return $this->render('search.html.twig', array('rechercheUser' => $rechercheUser));
       }
     }
+
 
     $securityContext = $this->container->get('security.authorization_checker');
     if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
@@ -72,7 +75,6 @@ class DefaultController extends Controller
       'actualites' => $actualites,
       'formSearch' => $formSearch->createView(),
       'allUser' => $allUser,
-      'base_dir' => realpath($this->container->getParameter('kernel.root_dir').'/..'),
     ));
   }
 
@@ -109,6 +111,34 @@ class DefaultController extends Controller
     }
     return $this->redirectToRoute('homepage');
   }
+
+
+
+
+  /**
+  * notification
+  * @Route("notification", name="notification")
+  */
+  public function notificationAction() {
+    $userId = $this->getUser();
+    $userId->getId();
+
+    $em = $this->getDoctrine()->getManager();
+    $follow = $em->getRepository('SocialBundle:AddFriend')->findBy(['receptionFriend' => $userId]);
+
+    $like = $em->getRepository('SocialBundle:Post')->findBy(['user' => $userId]);
+    $comment = $em->getRepository('SocialBundle:Commentaire')->findAll();
+
+
+
+    return $this->render('notification.html.twig', array(
+      'follow' => $follow,
+      'like' => $like,
+      'comment' => $comment,
+    ));
+
+  }
+
 
 
 
