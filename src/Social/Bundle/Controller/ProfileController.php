@@ -146,17 +146,16 @@ class ProfileController extends Controller
           $em->flush();
       }
        return $this->redirectToRoute('homepage');
-
   }
 
   public function createDeleteForm(AddFriend $addFriend)
   {
-
       return $this->createFormBuilder()
       ->setAction($this->generateUrl('addfriend_delete', array('id1'=>$user=$this->getUser()->getId(), 'user1'=>$user=$this->getUser(), 'id' => $addFriend->getId())))
           ->setMethod('DELETE')
           ->getForm()
       ;
   }
+
 
 }

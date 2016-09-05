@@ -8,6 +8,14 @@
   {{ user.email }}
   {% endif %}
   {% endfor %}
+
+  <br><br><br>
+
+{% for message in user if message.id != app.user.id and message.id == app.request.get('id') %}
+<a href="{{ path('messages_new', { 'recepteur': message.id}) }}">
+  <img src="" alt="" /> Message
+</a>
+{% endfor %}
   <br><br><br>
 
 

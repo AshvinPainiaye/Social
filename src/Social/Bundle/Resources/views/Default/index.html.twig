@@ -42,8 +42,7 @@
             <br>
             {{ statut.statut }}
             <br>
-            {% if statut.imageName is empty %}
-            {% else %}
+            {% if statut.imageName is not empty %}
             <img src="{{ asset('images/UserPost/')~ statut.imageName }}" alt="" class="img-responsive" />
             {% endif %}
 

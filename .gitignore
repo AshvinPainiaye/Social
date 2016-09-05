@@ -14,3 +14,5 @@
 !web/images/UserPost/.gitkeep
 /web/images/UserProfile/*
 !web/images/UserProfile/.gitkeep
+/web/images/Messages/*
+!web/images/Messages/.gitkeep

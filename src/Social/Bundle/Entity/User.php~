@@ -75,6 +75,16 @@ class User extends BaseUser
      */
     public $postlike;
 
+    /**
+    * @ORM\OneToMany(targetEntity="Messages", mappedBy="emetteur")
+    */
+    private $messageEmetteur;
+
+    /**
+    * @ORM\OneToMany(targetEntity="Messages", mappedBy="recepteur")
+    */
+    private $messageRecepteur;
+
 
     public function __construct()
     {
@@ -326,5 +336,73 @@ public function getImageName()
     public function getPostlike()
     {
         return $this->postlike;
+    }
+
+    /**
+     * Add messageEmetteur
+     *
+     * @param \Social\Bundle\Entity\Messages $messageEmetteur
+     *
+     * @return User
+     */
+    public function addMessageEmetteur(\Social\Bundle\Entity\Messages $messageEmetteur)
+    {
+        $this->messageEmetteur[] = $messageEmetteur;
+
+        return $this;
+    }
+
+    /**
+     * Remove messageEmetteur
+     *
+     * @param \Social\Bundle\Entity\Messages $messageEmetteur
+     */
+    public function removeMessageEmetteur(\Social\Bundle\Entity\Messages $messageEmetteur)
+    {
+        $this->messageEmetteur->removeElement($messageEmetteur);
+    }
+
+    /**
+     * Get messageEmetteur
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getMessageEmetteur()
+    {
+        return $this->messageEmetteur;
+    }
+
+    /**
+     * Add messageRecepteur
+     *
+     * @param \Social\Bundle\Entity\Messages $messageRecepteur
+     *
+     * @return User
+     */
+    public function addMessageRecepteur(\Social\Bundle\Entity\Messages $messageRecepteur)
+    {
+        $this->messageRecepteur[] = $messageRecepteur;
+
+        return $this;
+    }
+
+    /**
+     * Remove messageRecepteur
+     *
+     * @param \Social\Bundle\Entity\Messages $messageRecepteur
+     */
+    public function removeMessageRecepteur(\Social\Bundle\Entity\Messages $messageRecepteur)
+    {
+        $this->messageRecepteur->removeElement($messageRecepteur);
+    }
+
+    /**
+     * Get messageRecepteur
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getMessageRecepteur()
+    {
+        return $this->messageRecepteur;
     }
 }

@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<h1>conversation</h1>
+
+{% for conversation in conversation %}
+
+{% if conversation.emetteur.id == app.user.id %}
+
+Vous:
+
+{% else %}
+{{ conversation.emetteur.username }}:
+{% endif %}
+
+{{ conversation.message }}
+
+{% if conversation.imageName is not empty %}
+<img src="{{ asset('images/Messages/')~ conversation.imageName }}" alt="" class="img-responsive" />
+{% endif %}
+
+<br><br>
+{% endfor %}
+
+
+{{ form_start(form) }}
+{{ form_widget(form) }}
+<input type="submit" value="Create" />
+{{ form_end(form) }}
+
+
+{% endblock %}

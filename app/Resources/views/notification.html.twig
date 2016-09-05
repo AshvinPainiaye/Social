@@ -17,7 +17,7 @@
           <img src="{{ asset('images/UserProfile/')~ follow.envoieFriend.imageName }}" alt="" class="avatarUser" />
           {% endif %}
 
-          {{ follow.envoieFriend.username }}</a> vous suit
+          <strong>{{ follow.envoieFriend.username }}</strong> vous suit</a>
           <br><br>
           {% endfor %}
 
@@ -29,16 +29,16 @@
           {% for nLike in notificationLike.like %}
           {% if nLike.username != app.user %}
 
-          <a href="{{ path('fos_user_profile_show', {'id': nLike.id, 'user': nLike.username })}}">
+          <a href="{{ path('post_show', { 'id': notificationLike.id }) }}">
             {% if nLike.imageName is empty %}
             <img src="{{ asset('images/user_icon_default_social.jpg/') }}" alt="" class="avatarUser" />
             {% else %}
             <img src="{{ asset('images/UserProfile/')~ nLike.imageName }}" alt="" class="avatarUser" />
             {% endif %}
 
-            {{ nLike.username }} </a> aime votre publication
+            <strong>{{ nLike.username }}</strong> aime votre publication
 
-            <a href="{{ path('post_show', { 'id': notificationLike.id }) }}">{{ notificationLike.statut }}</a>
+            <strong>{{ notificationLike.statut }}</strong></a>
 
             <br><br>
             {% endif %}
@@ -53,19 +53,18 @@
             {% for commentaire in comment %}
             {% if commentaire.post.user.id == app.user.id %}
 
-            <a href="{{ path('fos_user_profile_show', {'id': commentaire.user.id, 'user': commentaire.user.username })}}">
+            <a href="{{ path('post_show', { 'id': commentaire.post.id }) }}">
               {% if commentaire.user.imageName is empty %}
               <img src="{{ asset('images/user_icon_default_social.jpg/') }}" alt="" class="avatarUser" />
               {% else %}
               <img src="{{ asset('images/UserProfile/')~ commentaire.user.imageName }}" alt="" class="avatarUser" />
               {% endif %}
 
-              {{ commentaire.user.username }} </a>
-
+              <strong>{{ commentaire.user.username }}</strong>
               a commenter votre publication
 
-              <a href="{{ path('post_show', { 'id': commentaire.post.id }) }}">{{ commentaire.post.statut }}</a>
-              
+              <strong>{{ commentaire.post.statut }}</strong></a>
+
               <br><br>
               {% endif %}
               {% endfor %}
@@ -75,4 +74,4 @@
         </div>
       </section>
 
-    {% endblock %}
+      {% endblock %}
