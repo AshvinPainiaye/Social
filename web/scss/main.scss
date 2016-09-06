@@ -7,3 +7,27 @@
   width:20px;
   height:20px;
 }
+
+
+#conversation{
+  .bleu{
+    background-color: #01abc3;
+    color: #ffffff;
+    padding: 10px;
+    border-radius: 20px;
+    margin:10px auto;
+    .image{
+      margin:10px auto;
+    }
+  }
+  .violet{
+    background-color: #5e33b1;
+    color: #ffffff;
+    padding: 10px;
+    border-radius: 20px;
+    margin:10px auto;
+    .image{
+      margin:10px auto;
+    }
+  }
+}

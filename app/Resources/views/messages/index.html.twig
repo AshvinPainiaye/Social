@@ -1,13 +1,33 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<h1>Messages</h1>
+<section id="index_message">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
 
-{% for user in users if user.id != app.user.id %}
-<a href="{{ path('messages_new', { 'recepteur': user.id}) }}">
-  <img src="" alt="" /> {{user.username}}
-</a>
-<br><br>
-{% endfor %}
+        <h2 class="text-center">Messages</h2>
+
+        {% for user in users if user.id != app.user.id %}
+
+        <a href="{{ path('messages_new', { 'recepteur': user.id}) }}">
+
+        {% if user.imageName is empty %}
+        <img src="{{ asset('images/user_icon_default_social.jpg/') }}" alt="" class="avatarUser" />
+        {% else %}
+        <img src="{{ asset('images/UserProfile/')~ user.imageName }}" alt="" class="avatarUser" />
+      {% endif %}
+      {{user.username}}
+    </a>
+
+    <br><br>
+
+
+  {% endfor %}
+
+</div>
+</div>
+</div>
+</section>
 
 {% endblock %}

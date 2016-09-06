@@ -6,4 +6,21 @@
   width: 20px;
   height: 20px; }
 
+#conversation .bleu {
+  background-color: #01abc3;
+  color: #ffffff;
+  padding: 10px;
+  border-radius: 20px;
+  margin: 10px auto; }
+  #conversation .bleu .image {
+    margin: 10px auto; }
+#conversation .violet {
+  background-color: #5e33b1;
+  color: #ffffff;
+  padding: 10px;
+  border-radius: 20px;
+  margin: 10px auto; }
+  #conversation .violet .image {
+    margin: 10px auto; }
+
 /*# sourceMappingURL=main.css.map */

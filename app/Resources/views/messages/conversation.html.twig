@@ -1,32 +1,94 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<h1>conversation</h1>
 
-{% for conversation in conversation %}
+<section id="conversation">
+  <div class="container">
+    <div class="row">
 
-{% if conversation.emetteur.id == app.user.id %}
+<div class="col-md-3">
+<h4 class="text-center"><a href="{{path('messages_index')}}">Retour</a></h4>
+</div>
 
-Vous:
+      <div class="col-md-6">
 
-{% else %}
-{{ conversation.emetteur.username }}:
-{% endif %}
+        <h3 class="text-center">
 
-{{ conversation.message }}
+        {% for user in user if app.request.get('recepteur') == user.id %}
 
-{% if conversation.imageName is not empty %}
-<img src="{{ asset('images/Messages/')~ conversation.imageName }}" alt="" class="img-responsive" />
-{% endif %}
+        <a href="{{ path('fos_user_profile_show', {'id': user.id, 'user': user.username })}}">
 
-<br><br>
-{% endfor %}
+        {{ user }}
+
+      </a>
+      {% endfor %}
+
+    </h3>
+
+    <div class="message" style="overflow-y:scroll; height: 300px">
 
 
-{{ form_start(form) }}
-{{ form_widget(form) }}
-<input type="submit" value="Create" />
-{{ form_end(form) }}
+    {% for conversation in conversation %}
 
+    {% if conversation.emetteur.id == app.user.id %}
+    <div class="col-xs-6 col-xs-offset-6">
+
+      <div class="text-right bleu">{{ conversation.message }}
+
+        {% if conversation.imageName is not empty %}
+        <img src="{{ asset('images/Messages/')~ conversation.imageName }}" alt="" class="img-responsive image" />
+        {% endif %}
+
+      </div>
+    </div>
+
+    {% else %}
+    <div class="col-xs-7">
+      <div class="text-left violet">
+
+  <a href="{{ path('fos_user_profile_show', {'id': conversation.emetteur.id, 'user': conversation.emetteur })}}"  data-toggle="tooltip" data-placement="right" title="{{ conversation.emetteur.username }}">
+        {% if conversation.emetteur.imageName is empty %}
+        <img src="{{ asset('images/user_icon_default_social.jpg/') }}" alt="" class="avatarUser" />
+        {% else %}
+        <img src="{{ asset('images/UserProfile/')~ conversation.emetteur.imageName }}" alt="" class="avatarUser" />
+        {% endif %}</a>
+
+        {{ conversation.message }}
+
+        {% if conversation.imageName is not empty %}
+        <img src="{{ asset('images/Messages/')~ conversation.imageName }}" alt="" class="img-responsive image" />
+        {% endif %}
+
+      </div>
+    </div>
+
+    {% endif %}
+
+
+
+    <br><br>
+    {% endfor %}
+
+  </div>
+
+
+
+    <div class="formulaire">
+      {{ form_start(form) }}
+      <div class="form-group">
+        {{ form_widget(form.message, {'attr': {'class':'form-control'}}) }}
+        {{ form_errors(form.message) }}
+      </div>
+
+      {{ form_widget(form) }}
+      <input type="submit" value="Envoyer" />
+      {{ form_end(form) }}
+
+    </div>
+
+  </div>
+</div>
+</div>
+</section>
 
 {% endblock %}

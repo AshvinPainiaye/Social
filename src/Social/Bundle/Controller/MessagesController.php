@@ -56,6 +56,9 @@ class MessagesController extends Controller
     $userId->getId();
     $message->setEmetteur($userId)->setRecepteur($recepteur);
 
+    $AllUser = $em->getRepository('SocialBundle:User')->findAll();
+
+
     $conversation = $em->getRepository('SocialBundle:Messages')->findConversation($userId, $recepteur);
 
     if ($form->isSubmitted() && $form->isValid()) {
@@ -69,7 +72,8 @@ class MessagesController extends Controller
     return $this->render('messages/conversation.html.twig', array(
       'message' => $message,
       'form' => $form->createView(),
-      'conversation' => $conversation
+      'conversation' => $conversation,
+      'user' => $AllUser,
     ));
   }
 
