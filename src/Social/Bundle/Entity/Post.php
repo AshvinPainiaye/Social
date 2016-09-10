@@ -24,9 +24,9 @@ class Post
   private $id;
 
   /**
-  * @var string
+  * @var text
   *
-  * @ORM\Column(name="Statut", type="string", length=255)
+  * @ORM\Column(name="Statut", type="text")
   */
   private $statut;
 

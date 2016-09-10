@@ -1,35 +1,52 @@
 {% extends "base.html.twig" %}
 
+{% block search %}
+<div id="search">
+
+{{ form_start(formSearch,{'attr': {'class':'navbar-form navbar-left'}}) }}
+<div class="form-group">
+  {{ form_widget(formSearch.recherche,{'attr': {'placeholder':'Rechercher','class':'form-control'}}) }}
+</div>
+<button class="btn btn-default" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+{{ form_end(formSearch) }}
+
+</div>
+{% endblock %}
+
 {% block body %}
 
 {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
 
 
-<section>
+<section id="index">
   <div class="container">
     <div class="row">
-      <div class="col-md-3 ui-widget">
+      <div class="col-md-3">
+        <article class="lastUser">
+          <h3>Les derniers Inscrits</h3>
+          {% for user in allUser|reverse|slice(0,5) %}
 
-        {{ form_start(formSearch) }}
-        {{ form_widget(formSearch) }}
-        <input type="submit" value="Rechercher" />
-        {{ form_end(formSearch) }}
-      </div>
+          {% if user != app.user %}
 
+          <a href="{{ path('fos_user_profile_show', {'id': user.id, 'user': user.username })}}">
 
-      <div class="col-md-6">
-        {{ form_start(formPost) }}
-        {{ form_widget(formPost) }}
-        <input type="submit" value="Create" />
-        {{ form_end(formPost) }}
+            {% if user.imageName is empty %}
+            <img src="{{ asset('images/user_icon_default_social.jpg/') }}" alt="" class="avatarUser" />
+            {% else %}
+            <img src="{{ asset('images/UserProfile/')~ user.imageName }}" alt="" class="avatarUser" />
+            {% endif %}
 
+            {{ user.username }} </a>
+            
+            <br><br>
+          {% endif %}
 
+          {% endfor %}
+        </article>
 
         {% for statut in posts|reverse|slice(0,1) %}
-        <br><br><br>
-        <h3 class="text-center">Mon dernier post</h3>
-        <br><br>
-        <article>
+        <article class="lastPost">
+          <h3 class="text-center">Mon dernier post</h3>
           <a href="{{ path('fos_user_profile_show', {'id': statut.user.id, 'user': statut.user })}}">
 
             {% if statut.user.imageName is empty %}
@@ -92,141 +109,156 @@
               aucun commentaire
               {% endfor %}
             </article>
-            <hr>
             {% endfor %}
 
+            <article class="parametre">
+              <a href="{{path('fos_user_change_password', {'id': app.user.id, 'user': app.user })}}">Modifier mot de passe</a> <br>
+              <a href="{{path('fos_user_profile_edit', {'id': app.user.id, 'user': app.user })}}">Modifier compte</a>
+            </article>
+
+          </div>
 
 
-            <br><br>
-            <h3 class="text-center">Fil d'actualité</h3>
+          <div class="col-md-6">
 
-            {% for actualite in actualites %}
-            {% if app.user.id == actualite.envoieFriend.id %}
-            {% for fil in actualite.receptionFriend.statut %}
+            <div class="formStatut">
+              {{ form_start(formPost) }}
 
-            <br><br><br>
-
-            <article>
-              <a href="{{ path('fos_user_profile_show', {'id': fil.user.id, 'user': fil.user })}}">
-
-                {% if fil.user.imageName is empty %}
+              <div class="col-md-1">
+                {% if app.user.imageName is empty %}
                 <img src="{{ asset('images/user_icon_default_social.jpg/') }}" alt="" class="avatarUser" />
                 {% else %}
-                <img src="{{ asset('images/UserProfile/')~ fil.user.imageName }}" alt="" class="avatarUser" />
+                <img src="{{ asset('images/UserProfile/')~ app.user.imageName }}" alt="" class="avatarUser" />
                 {% endif %}
+              </div>
 
-                {{ fil.user }} </a>
-                <br>
-                {{ fil.statut }}
-                <br>
+              <div class="col-md-11">
+                {{ form_widget(formPost.statut,{'attr': {'placeholder':'Poster un statut'}}) }}
+              </div>
 
-                {% if fil.imageName is empty %}
-                {% else %}
-                <img src="{{ asset('images/UserPost/')~ fil.imageName }}" alt="" class="img-responsive" />
-                {% endif %}
-                <br>
 
-                {% for like in fil.like %}
-                {% if app.user.id == like.id  %}
-                <a class="likePost" id="{{fil.id}}"><span class="removeLike2">J'aime plus</span><span class="addLike2 hidden">J'aime</span></a>
-                <span id="post{{fil.id}}"> {{fil.like|length}} </span>
-                {% endif %}
-                {% endfor %}
+              {{ form_widget(formPost.imageFile) }}
 
-                {% for like in fil.like if app.user.id == like.id %}
-                {% else %}
-                <a class="likePost" id="{{fil.id}}"><span class="addLike">J'aime</span><span class="removeLike hidden">J'aime plus</span></a>
-                <span id="post{{fil.id}}"> {{fil.like|length}} </span>
-                {% endfor %}
 
-                <a href="{{ path('post_show', { 'id': fil.id }) }}">Commenter</a>
-                <br><br>
+              <input type="submit" class="btn btn-default" value="Publier" />
+              {{ form_end(formPost) }}
+            </div>
 
-                {% for comment in fil.commentaire|slice(0, 1) if comment is not empty %}
-                <strong>Dernier commentaire</strong>
-                {% endfor %}
-                <br>
-                {% for comment in fil.commentaire|slice(0, 5) if comment is not empty %}
+            <div class="fil-actualite">
 
-                <a href="{{ path('fos_user_profile_show', {'id': comment.user.id, 'user': comment.user })}}">
+              {% for actualite in actualites %}
+              {% if app.user.id == actualite.envoieFriend.id %}
+              {% for fil in actualite.receptionFriend.statut %}
 
-                  {% if comment.user.imageName is empty %}
+              <article>
+                <a href="{{ path('fos_user_profile_show', {'id': fil.user.id, 'user': fil.user })}}">
+
+                  {% if fil.user.imageName is empty %}
                   <img src="{{ asset('images/user_icon_default_social.jpg/') }}" alt="" class="avatarUser" />
                   {% else %}
-                  <img src="{{ asset('images/UserProfile/')~ comment.user.imageName }}" alt="" class="avatarUser" />
+                  <img src="{{ asset('images/UserProfile/')~ fil.user.imageName }}" alt="" class="avatarUser" />
                   {% endif %}
 
-                  {{ comment.user }} </a>
-
+                  {{ fil.user }} </a>
                   <br>
-                  {{ comment.commentaire }}
-                  <br><br>
+                  {{ fil.statut }}
+                  <br>
 
+                  {% if fil.imageName is empty %}
                   {% else %}
-                  aucun commentaire
-                  {% endfor %}
-                </article>
-                <hr>
-                {% endfor %}
-                {% endif %}
-                {% endfor %}
-
-
-
-              </div>
-              <div class="col-md-3">
-                <h3>Les Dernier Inscrit</h3>
-                {% for user in allUser|reverse|slice(0,5) %}
-
-                <a href="{{ path('fos_user_profile_show', {'id': user.id, 'user': user.username })}}">
-
-                  {% if user.imageName is empty %}
-                  <img src="{{ asset('images/user_icon_default_social.jpg/') }}" alt="" class="avatarUser" />
-                  {% else %}
-                  <img src="{{ asset('images/UserProfile/')~ user.imageName }}" alt="" class="avatarUser" />
+                  <img src="{{ asset('images/UserPost/')~ fil.imageName }}" alt="" class="img-responsive" />
                   {% endif %}
+                  <br>
 
-                  {{ user.username }} </a>
+                  {% for like in fil.like %}
+                  {% if app.user.id == like.id  %}
+                  <a class="likePost" id="{{fil.id}}"><span class="removeLike2">J'aime plus</span><span class="addLike2 hidden">J'aime</span></a>
+                  <span id="post{{fil.id}}"> {{fil.like|length}} </span>
+                  {% endif %}
+                  {% endfor %}
+
+                  {% for like in fil.like if app.user.id == like.id %}
+                  {% else %}
+                  <a class="likePost" id="{{fil.id}}"><span class="addLike">J'aime</span><span class="removeLike hidden">J'aime plus</span></a>
+                  <span id="post{{fil.id}}"> {{fil.like|length}} </span>
+                  {% endfor %}
+
+                  <a href="{{ path('post_show', { 'id': fil.id }) }}">Commenter</a>
                   <br><br>
 
+                  {% for comment in fil.commentaire|slice(0, 1) if comment is not empty %}
+                  <strong>Dernier commentaire</strong>
                   {% endfor %}
+                  <br>
+                  {% for comment in fil.commentaire|slice(0, 5) if comment is not empty %}
+
+                  <a href="{{ path('fos_user_profile_show', {'id': comment.user.id, 'user': comment.user })}}">
+
+                    {% if comment.user.imageName is empty %}
+                    <img src="{{ asset('images/user_icon_default_social.jpg/') }}" alt="" class="avatarUser" />
+                    {% else %}
+                    <img src="{{ asset('images/UserProfile/')~ comment.user.imageName }}" alt="" class="avatarUser" />
+                    {% endif %}
+
+                    {{ comment.user }} </a>
+
+                    <br>
+                    {{ comment.commentaire }}
+                    <br><br>
+
+                    {% else %}
+                    aucun commentaire
+                    {% endfor %}
+                  </article>
+                  <!-- <hr> -->
+                  {% endfor %}
+                  {% endif %}
+                  {% endfor %}
+
+
+
                 </div>
               </div>
-            </div>
-          </section>
 
-          {% else %}
-          <section id="visiteur">
-            <div class="container">
-              <div class="row">
-                <div class="col-md-8">
-
-                </div>
-
-                <div class="col-md-4">
-                  {% include "FOSUserBundle:Registration:register_content.html.twig" %}
-                </div>
-
+              <div class="col-md-3">
+                <!-- -->
               </div>
             </div>
-          </section>
-          {% endif %}
+          </div>
+        </section>
 
-          {% endblock body %}
+        {% else %}
+        <section id="visiteur">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-8">
 
-          {% block searchUser %}
-          <link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
-          <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
-          <script type="text/javascript">
-          $( function() {
-            var availableTags = [
-              {% for item in allUser %}
-              "{{ item.username }}",
-              {% endfor %}  ]
+              </div>
 
-              $( "#recherche_user_recherche" ).autocomplete({
-                source: availableTags
-              });
-            } );
-            </script>
-            {% endblock searchUser %}
+              <div class="col-md-4">
+                {% include "FOSUserBundle:Registration:register_content.html.twig" %}
+              </div>
+
+            </div>
+          </div>
+        </section>
+        {% endif %}
+
+        {% endblock body %}
+
+        {% block searchUser %}
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
+        <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+        <script type="text/javascript">
+        $( function() {
+          var availableTags = [
+            {% for item in allUser %}
+            "{{ item.username }}",
+            {% endfor %}  ]
+
+            $( "#recherche_user_recherche" ).autocomplete({
+              source: availableTags
+            });
+          } );
+          </script>
+          {% endblock searchUser %}
