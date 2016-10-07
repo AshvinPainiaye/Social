@@ -26,7 +26,6 @@ class ProfileController extends Controller
   public function showAction(Request $request, $id)
   {
 
-
     $userId = $this->getUser();
     $em = $this->getDoctrine()->getManager();
     $user = $em->getRepository('SocialBundle:User')->findAll();
@@ -49,7 +48,6 @@ class ProfileController extends Controller
     $username = $em->getRepository('SocialBundle:User')->findOneById($id);
     $friend = $em->getRepository('SocialBundle:AddFriend')->findBy(['receptionFriend'=>$username]);
     $follower = $em->getRepository('SocialBundle:AddFriend')->findAll();
-
 
 
     if ($formAddFriend->isSubmitted() && $formAddFriend->isValid()) {

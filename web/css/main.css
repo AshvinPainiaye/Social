@@ -29,7 +29,8 @@ body {
     border: none; }
     #index .formStatut textarea:focus {
       outline: none !important; }
-#index .fil-actualite article {
+
+article {
   background-color: #ffffff;
   padding: 20px;
   border-radius: 20px;
@@ -91,7 +92,8 @@ body {
   border-bottom-right-radius: 20px;
   border-top-right-radius: 20px;
   border-top-left-radius: 0px;
-  border-bottom-left-radius: 0px; }
+  border-bottom-left-radius: 0px;
+  height: 34px; }
 
 .addLike, .addLike2, .removeLike, .removeLike2 {
   cursor: pointer; }

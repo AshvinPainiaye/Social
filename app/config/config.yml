@@ -70,8 +70,17 @@ fos_user:
     firewall_name: main
     user_class: Social\Bundle\Entity\User
     registration:
+        confirmation:
+            enabled: true
         form:
             type: Social\Bundle\Form\RegistrationFormType
+
+    from_email:
+        sender_name:    Social
+        
+    service:
+        mailer: fos_user.mailer.twig_swift
+
 
 vich_uploader:
     db_driver: orm

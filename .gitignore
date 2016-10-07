@@ -16,3 +16,4 @@
 !web/images/UserProfile/.gitkeep
 /web/images/Messages/*
 !web/images/Messages/.gitkeep
+/nbproject/private/

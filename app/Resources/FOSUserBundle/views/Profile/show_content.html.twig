@@ -1,150 +1,174 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
-<div class="fos_user_user_show">
+<div class="container">
+  <div class="row">
+    <div class="col-md-3">
 
-  {% for user in user %}
-  {% if app.request.get('id') == user.id %}
-  {{ user.username }}
-  {{ user.email }}
-  {% endif %}
-  {% endfor %}
+      <article>
 
-  <br><br><br>
+          {% for message in user if message.id != app.user.id and message.id == app.request.get('id') %}
+          <a href="{{ path('messages_new', { 'recepteur': message.id}) }}" class="btn btn-primary btn-md">
+            <img src="" alt="" /> Message
+          </a>
 
-{% for message in user if message.id != app.user.id and message.id == app.request.get('id') %}
-<a href="{{ path('messages_new', { 'recepteur': message.id}) }}">
-  <img src="" alt="" /> Message
-</a>
-{% endfor %}
-  <br><br><br>
+          {% endfor %}
 
+          {% for friends in friend if friends.envoieFriend.id == app.user.id %}
 
-Abonnées
+          <a href="{{ path('addfriend_show', { 'id1': app.user.id,  'user1':app.user, 'id': friends.id}) }}" class="btn btn-primary btn-md">ne plus suivre</a>
 
-{% for nbAbonne in follower %}
-{% if nbAbonne.receptionFriend.id == app.request.get('id') %}
-<br>
-- {{ nbAbonne.envoieFriend.username }}
-<br>
-{% endif %}
-{% endfor %}
+          {% else %}
+          {% if  app.request.get('id') != app.user.id %}
+          {{ form_start(formAddFriend) }}
+          {{ form_widget(formAddFriend) }}
+          <input type="submit" class="btn btn-primary btn-md" value="suivre" />
+          {{ form_end(formAddFriend) }}
 
-<br><br>
-
- Abonnement
-<br>
-{% for abonnement in follower %}
-{% if abonnement.envoieFriend.id == app.request.get('id') %}
-<br>
-- {{ abonnement.receptionFriend.username }}
-<br>
-{% endif %}
-{% endfor %}
+          {% endif %}
+          {% endfor %}
 
 
-{% for friends in friend if friends.envoieFriend.id == app.user.id %}
+          <!-- Debut modal abonnées -->
+          <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#ModalAbonnees">
+            Abonnées
+          </button>
+          <div class="modal fade" id="ModalAbonnees" tabindex="-1" role="dialog" aria-labelledby="ModalAbonneesLabel">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="ModalAbonneesLabel">Abonnées</h4>
+                </div>
+                <div class="modal-body">
+                  {% for nbAbonne in follower %}
+                  {% if nbAbonne.receptionFriend.id == app.request.get('id') %}
+                  <br>
+                  - {{ nbAbonne.envoieFriend.username }}
+                  <br>
+                  {% endif %}
+                  {% endfor %}
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Fermé</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Fin modal abonnées -->
 
-<a href="{{ path('addfriend_show', { 'id1': app.user.id,  'user1':app.user, 'id': friends.id}) }}">ne plus suivre</a>
+          <!-- Debut modal abonnement -->
+          <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#ModalAbonnement">
+            Abonnement
+          </button>
+          <div class="modal fade" id="ModalAbonnement" tabindex="-1" role="dialog" aria-labelledby="ModalAbonnementLabel">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="ModalAbonnementLabel">Abonnement</h4>
+                </div>
+                <div class="modal-body">
+                  {% for abonnement in follower %}
+                  {% if abonnement.envoieFriend.id == app.request.get('id') %}
+                  <br>
+                  - {{ abonnement.receptionFriend.username }}
+                  <br>
+                  {% endif %}
+                  {% endfor %}
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Fermé</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Fin modal abonnement -->
+        </article>
+
+        {% if app.user.id == app.request.get('id') %}
+        <article class="parametre">
+          <a href="{{path('fos_user_change_password', {'id': app.user.id, 'user': app.user })}}">Modifier mot de passe</a> <br>
+          <a href="{{path('fos_user_profile_edit', {'id': app.user.id, 'user': app.user })}}">Modifier compte</a>
+        </article>
+        {% endif %}
+
+      </div>
+
+      <div class="col-md-6">
+        <div class="fos_user_user_show">
+
+          {% for statut in posts %}
+
+          {% if app.request.get('id') == statut.user.id %}
+
+          <article>
+            <a href="{{ path('fos_user_profile_show', {'id': statut.user.id, 'user': statut.user })}}">
+
+              {% if statut.user.imageName is empty %}
+              <img src="{{ asset('images/user_icon_default_social.jpg/') }}" alt="" class="avatarUser" />
+              {% else %}
+              <img src="{{ asset('images/UserProfile/')~ statut.user.imageName }}" alt="" class="avatarUser" />
+              {% endif %}
+
+              {{ statut.user }} </a>
+              <br>
+              {{ statut.statut }}
+              <br>
+
+              {% if statut.imageName is empty %}
+              {% else %}
+              <img src="{{ asset('images/UserPost/')~ statut.imageName }}" alt="" class="img-responsive" />
+              {% endif %}
+              <br>
+
+              {% for like in statut.like %}
+              {% if app.user.id == like.id  %}
+              <a class="likePost" id="{{statut.id}}"><span class="removeLike2">J'aime plus</span><span class="addLike2 hidden">J'aime</span></a>
+              <span id="post{{statut.id}}"> {{statut.like|length}} </span>
+              {% endif %}
+              {% endfor %}
+
+              {% for like in statut.like if app.user.id == like.id %}
+              {% else %}
+              <a class="likePost" id="{{statut.id}}"><span class="addLike">J'aime</span><span class="removeLike hidden">J'aime plus</span></a>
+              <span id="post{{statut.id}}"> {{statut.like|length}} </span>
+              {% endfor %}
+
+              <a href="{{ path('post_show', { 'id': statut.id }) }}">Commenter</a>
+              <br><br>
+
+              {% for comment in statut.commentaire|slice(0, 1) if comment is not empty %}
+              <strong>Dernier commentaire</strong>
+              {% endfor %}
+              <br>
+              {% for comment in statut.commentaire|slice(0, 5) if comment is not empty %}
+
+              <a href="{{ path('fos_user_profile_show', {'id': comment.user.id, 'user': comment.user })}}">
+
+                {% if comment.user.imageName is empty %}
+                <img src="{{ asset('images/user_icon_default_social.jpg/') }}" alt="" class="avatarUser" />
+                {% else %}
+                <img src="{{ asset('images/UserProfile/')~ comment.user.imageName }}" alt="" class="avatarUser" />
+                {% endif %}
+
+                {{ comment.user }} </a>
+
+                <br>
+                {{ comment.commentaire }}
+                <br><br>
+
+                {% else %}
+                aucun commentaire
+                {% endfor %}
+              </article>
+
+              {% endif %}
+
+              {% endfor %}
+
+            </div>
 
 
-{% else %}
-{% if  app.request.get('id') != app.user.id %}
-  {{ form_start(formAddFriend) }}
-  {{ form_widget(formAddFriend) }}
-  <input type="submit" value="suivre" />
-  {{ form_end(formAddFriend) }}
-{% endif %}
-{% endfor %}
-
-
-
-  {% for statut in posts %}
-
-  {% if app.request.get('id') == statut.user.id %}
-
-  <br><br><br>
-
-
-  <br><br><br>
-
-  <article>
-
-    <a href="{{ path('fos_user_profile_show', {'id': statut.user.id, 'user': statut.user })}}">
-
-      {% if statut.user.imageName is empty %}
-      <img src="{{ asset('images/user_icon_default_social.jpg/') }}" alt="" class="avatarUser" />
-      {% else %}
-      <img src="{{ asset('images/UserProfile/')~ statut.user.imageName }}" alt="" class="avatarUser" />
-      {% endif %}
-
-      {{ statut.user }} </a>
-
-    <br>
-    {{ statut.statut }}
-    <br>
-    {% if statut.imageName is empty %}
-    {% else %}
-    <img src="{{ asset('images/UserPost/')~ statut.imageName }}" alt="" class="img-responsive" />
-    {% endif %}
-
-    <br>
-
-    {% for like in statut.like %}
-    {% if app.user.id == like.id  %}
-    <a class="likePost" id="{{statut.id}}"><span class="removeLike2">J'aime plus</span><span class="addLike2 hidden">J'aime</span></a>
-    <span id="post{{statut.id}}"> {{statut.like|length}} </span>
-
-    {% endif %}
-    {% endfor %}
-
-    {% for like in statut.like if app.user.id == like.id %}
-    {% else %}
-
-    <a class="likePost" id="{{statut.id}}"><span class="addLike">J'aime</span><span class="removeLike hidden">J'aime plus</span></a>
-    <span id="post{{statut.id}}"> {{statut.like|length}} </span>
-
-    {% endfor %}
-
-    <a href="{{ path('post_show', { 'id': statut.id }) }}">Commenter</a>
-
-    <br><br>
-
-    {% for comment in statut.commentaire|slice(0, 1) if comment is not empty %}
-    <strong>Dernier commentaire</strong>
-    {% endfor %}
-    <br>
-    {% for comment in statut.commentaire|slice(0, 5) if comment is not empty %}
-
-    <a href="{{ path('fos_user_profile_show', {'id': comment.user.id, 'user': comment.user })}}">
-
-      {% if comment.user.imageName is empty %}
-      <img src="{{ asset('images/user_icon_default_social.jpg/') }}" alt="" class="avatarUser" />
-      {% else %}
-      <img src="{{ asset('images/UserProfile/')~ comment.user.imageName }}" alt="" class="avatarUser" />
-      {% endif %}
-
-      {{ comment.user }} </a>
-
-      <br>
-      {{ comment.commentaire }}
-      <br><br>
-
-      {% else %}
-      aucun commentaire
-      {% endfor %}
-
-  </article>
-
-{% endif %}
-
-{% endfor %}
-
-<br><br><br>
-
-{% if app.user.id == app.request.get('id') %}
-
-<a href="{{path('fos_user_change_password', {'id': app.user.id, 'user': app.user })}}">Modifier mot de passe</a> | <a href="{{path('fos_user_profile_edit', {'id': app.user.id, 'user': app.user })}}">Modifier compte</a>
-
-{% endif %}
-
-</div>
+          </div>
+        </div>
+      </div>
