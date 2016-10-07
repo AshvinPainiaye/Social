@@ -9,7 +9,7 @@
         <h2 class="text-center">Messages</h2>
 
 {% for message in messages if message.emetteur.id == app.user.id or message.recepteur.id == app.user.id %}
-{{dump(message.recepteur.username)}}
+{#{dump(message.recepteur.username)}#}
 {% endfor %}
 
         {% for user in users if user.id != app.user.id %}
